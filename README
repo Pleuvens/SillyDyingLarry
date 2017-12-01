@@ -1,6 +1,7 @@
+This project is Silly Dying Larry. A very fun platformer made with SDL2 in C.
+
 map: 0 -> background
      1 -> ground
      2 -> water
-     3 -> trap
-     4 -> player
-     5 -> enemy
+     3 -> player
+     4 -> enemy
