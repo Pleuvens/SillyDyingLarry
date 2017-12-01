@@ -1,12 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
-struct context {
-  SDL_Window *window;
-  SDL_Renderer *renderer;
-};
+#include "main.h"
+#include "../map/map.h"
 
 void update(struct context *context)
 {
@@ -21,25 +17,16 @@ void update(struct context *context)
     }
   }
   */
-  /* Load Background image */
-  SDL_Surface *test_surf = IMG_Load("images/background.png");
-  SDL_Texture *test_tex = SDL_CreateTextureFromSurface(context->renderer,
-                                                       test_surf);
-  SDL_FreeSurface(test_surf);
-  
-  /* ------ */
-  
-  /* Render Image */
 
   SDL_RenderClear(context->renderer);
-  SDL_RenderCopy(context->renderer, test_tex, NULL, NULL);
+
+  generate_map(context);
+
   SDL_RenderPresent(context->renderer);
 
-  /* ---- */
+  SDL_Delay(2000);
 
-  SDL_Delay(10000);
-
-  SDL_DestroyTexture(test_tex);
+  //SDL_DestroyTexture(test_tex);
 }
 
 int main(void)
@@ -51,19 +38,19 @@ int main(void)
     return 1;
   }
   struct context *context = calloc(1, sizeof (struct context));
-  context->window = SDL_CreateWindow("Rush C", 0, 0, 800, 600,
+  context->window = SDL_CreateWindow("Silly Dying Larry", 0, 0, 800, 600,
                                         SDL_WINDOW_OPENGL);
   context->renderer = SDL_CreateRenderer(context->window, -1,
                                               SDL_RENDERER_ACCELERATED
                                               | SDL_RENDERER_PRESENTVSYNC
-                                              | SDL_RENDERER_TARGETTEXTURE); 
+                                              | SDL_RENDERER_TARGETTEXTURE);
 
   if (!context->window)
   {
     printf("Failed to create window: %s\n", SDL_GetError());
     return 1;
   }
-  
+
   update(context);
 
   SDL_DestroyWindow(context->window);
