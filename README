@@ -1,0 +1,6 @@
+map: 0 -> background
+     1 -> ground
+     2 -> water
+     3 -> trap
+     4 -> player
+     5 -> enemy
