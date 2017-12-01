@@ -1,10 +1,10 @@
 CC=gcc
 CFLAGS=-g -Wall -Wextra -Werror -pedantic -std=c99 -lSDL2 -lSDL2_image
 
-OBJ=src/main/main.c
+OBJ=src/map/map.c src/main/main.c
 
-rush-c:
-	$(CC) $(CFLAGS) $(OBJ) -o rush-c
+Silly-Dying-Larry:
+	$(CC) $(CFLAGS) $(OBJ) -o Silly-Dying-Larry
 
 clean:
-	$(RM) rush-c *.o
+	$(RM) Silly-Dying-Larry *.o
