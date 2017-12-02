@@ -4,15 +4,15 @@
 
 #include "../structures.h"
 
-int main(void)
+int menu(int screen_w, int screen_h)
 {
   int end = 0;
+  int opt = 0;
 
   SDL_Init(SDL_INIT_EVERYTHING);
 
-  SDL_Window *screen = SDL_CreateWindow("Silly Dying Larry", 0, 0,
-                          SCREEN_WIDTH, SCREEN_HEIGHT,
-                          SDL_WINDOW_OPENGL);
+  SDL_Window *screen = SDL_CreateWindow("Silly Dying Larry", 0, 0, screen_w, 
+                                        screen_h, SDL_WINDOW_OPENGL);
 
 
   SDL_Renderer *renderer = SDL_CreateRenderer(screen, -1,
@@ -23,7 +23,7 @@ int main(void)
   SDL_Surface *background = IMG_Load("../../images/menu.png");
 
   SDL_Surface *buttonpo = IMG_Load("../../images/ButtonSelectOn.png");
-  SDL_Surface *buttonpf = IMG_Load("../../images/ButtonSelectOn.png");
+  SDL_Surface *buttonpf = IMG_Load("../../images/ButtonSelectOff.png");
   SDL_Surface *buttonoo = IMG_Load("../../images/ButtonOptionsOn.png");
   SDL_Surface *buttonof = IMG_Load("../../images/ButtonOptionsOff.png");
   SDL_Surface *buttonqo = IMG_Load("../../images/ButtonQuitOn.png");
@@ -38,31 +38,38 @@ int main(void)
   SDL_Texture *btexqo = SDL_CreateTextureFromSurface(renderer, buttonqo);
   SDL_Texture *btexqf = SDL_CreateTextureFromSurface(renderer, buttonqf);
 
+  SDL_FreeSurface(buttonpo);
+  SDL_FreeSurface(buttonpf);
+  SDL_FreeSurface(buttonoo);
+  SDL_FreeSurface(buttonof);
+  SDL_FreeSurface(buttonqo);
+  SDL_FreeSurface(buttonqf);
+
   SDL_RenderClear(renderer);
 
   SDL_Rect rectplay;
-  rectplay.w = SCREEN_WIDTH / 13;
-  rectplay.h = SCREEN_HEIGHT / 13;
-  rectplay.x = (SCREEN_WIDTH / 2) - (rectplay.w / 2);
-  rectplay.y = SCREEN_HEIGHT / 2;
+  rectplay.w = screen_w / 5;
+  rectplay.h = screen_h / 12;
+  rectplay.x = (screen_w / 2) - (rectplay.w / 2);
+  rectplay.y = screen_h / 2;
 
   SDL_Rect rectoptions;
-  rectoptions.w = SCREEN_WIDTH / 13;
-  rectoptions.h = SCREEN_HEIGHT / 13;
-  rectoptions.x = (SCREEN_WIDTH / 2) - (rectoptions.w / 2);
-  rectoptions.y = SCREEN_HEIGHT / 2 - (rectoptions.w * 2);
+  rectoptions.w = screen_w / 5;
+  rectoptions.h = screen_h / 12;
+  rectoptions.x = (screen_w / 2) - (rectoptions.w / 2);
+  rectoptions.y = screen_h / 2 + (rectoptions.h * 2);
 
   SDL_Rect rectquit;
-  rectquit.w = SCREEN_WIDTH / 13;
-  rectquit.h = SCREEN_HEIGHT / 13;
-  rectquit.x = (SCREEN_WIDTH / 2) - (rectquit.w / 2);
-  rectquit.y = SCREEN_HEIGHT / 2 - (rectquit.w * 4);
+  rectquit.w = screen_w / 5;
+  rectquit.h = screen_h / 12;
+  rectquit.x = (screen_w / 2) - (rectquit.w / 2);
+  rectquit.y = screen_h / 2 + (rectquit.h * 4);
 
   SDL_RenderCopy(renderer, backtex, NULL, NULL);
 
   SDL_RenderCopy(renderer, btexpo, NULL, &rectplay);
   SDL_RenderCopy(renderer, btexof, NULL, &rectoptions);
-  SDL_RenderCopy(renderer, buttqf, NULL, &rectquit);
+  SDL_RenderCopy(renderer, btexqf, NULL, &rectquit);
 
   int whichbutton = 0;
 
@@ -74,20 +81,28 @@ int main(void)
 
     while (SDL_PollEvent(&e))
     {
-      if (e.type == SDL_QUIT)
-      {
-        end = 0;
-        break;
-      }
+
     }
 
     const Uint8 *keystates = SDL_GetKeyboardState(NULL);
-    Uint8 escape = keystates[SDL_SCANCODE_ESCAPE];
+
     Uint8 up = keystates[SDL_SCANCODE_UP];
     Uint8 down = keystates[SDL_SCANCODE_DOWN];
 
+    Uint8 escape = keystates[SDL_SCANCODE_ESCAPE];
+    Uint8 enter = keystates[SDL_SCANCODE_KP_ENTER];
+
     if (escape)
       end = 1;
+
+    if (whichbutton == 2 && enter)
+      end = 1;
+
+    if (whichbutton == 1 && enter)
+    {
+      opt = 1;
+      end = 1;
+    }
 
     if (up)
       whichbutton--;
@@ -95,41 +110,59 @@ int main(void)
     else if (down)
       whichbutton++;
 
+    if (whichbutton == 3)
+      whichbutton--;
+
+    if (whichbutton == -1)
+      whichbutton++;
+
     SDL_RenderClear(renderer);
 
     SDL_RenderCopy(renderer, backtex, NULL, NULL);
 
-    if (wichbutton == 0)
+    if (whichbutton == 0)
     {
       SDL_RenderCopy(renderer, btexpo, NULL, &rectplay);
       SDL_RenderCopy(renderer, btexof, NULL, &rectoptions);
-      SDL_RenderCopy(renderer, buttqf, NULL, &rectquit);
+      SDL_RenderCopy(renderer, btexqf, NULL, &rectquit);
     }
 
-    else if (wichbutton == 1)
+    else if (whichbutton == 1)
     {
       SDL_RenderCopy(renderer, btexpf, NULL, &rectplay);
       SDL_RenderCopy(renderer, btexoo, NULL, &rectoptions);
-      SDL_RenderCopy(renderer, buttqf, NULL, &rectquit);
+      SDL_RenderCopy(renderer, btexqf, NULL, &rectquit);
     }
 
-    else if (wichbutton == 2)
+    else if (whichbutton == 2)
     {
       SDL_RenderCopy(renderer, btexpf, NULL, &rectplay);
       SDL_RenderCopy(renderer, btexof, NULL, &rectoptions);
-      SDL_RenderCopy(renderer, buttqo, NULL, &rectquit);
+      SDL_RenderCopy(renderer, btexqo, NULL, &rectquit);
     }
 
     SDL_RenderPresent(renderer);
 
-    SDL_Delay(50);
+    SDL_Delay(110);
   }
 
   if (background)
     SDL_FreeSurface(background);
 
-  if (button)
-    SDL_FreeSurface(button);
+  if (opt == 1)
+    return 1;
+
+  return 0;
+}
+
+int main(void)
+{
+  int i = menu(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+  while (i != 0)
+  {
+    i = menu(1280, 1024);
+  }
 
   return 0;
 }
