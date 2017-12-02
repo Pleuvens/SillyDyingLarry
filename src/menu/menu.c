@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 #include <stdio.h>
 
 #include "../structures.h"
@@ -20,6 +21,21 @@ int menu(int screen_w, int screen_h)
                                               SDL_RENDERER_ACCELERATED
                                               | SDL_RENDERER_PRESENTVSYNC
                                               | SDL_RENDERER_TARGETTEXTURE);
+
+  // music
+
+  Mix_Music *music = NULL;
+  //int playmusic = 1;
+  //int pausemusic = 0;
+
+  Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+
+  music = Mix_LoadMUS("music/menumusic.mp3");
+
+  if (Mix_PlayingMusic() == 0)
+    Mix_PlayMusic(music, 0);
+
+  // end of music
 
   SDL_Surface *background = IMG_Load("images/menu.png");
 
