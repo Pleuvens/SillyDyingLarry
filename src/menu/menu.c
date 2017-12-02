@@ -1,19 +1,22 @@
 //Using SDL and standard IO
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <stdio.h>
 
+
 //Screen dimension constants
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 608;
+const int SCREEN_WIDTH = 1152; //1152 - 1280
+const int SCREEN_HEIGHT = 960;  //960 - 1024
+const int SCREEN_BPP = 32;
 
-//The window we'll be rendering to
-SDL_Window* window = NULL;
+// The main screen
+SDL_Window *window = NULL;
     
-//The surface contained by the window
-SDL_Surface* screenSurface = NULL;
+SDL_Event event = NULL;
 
-//The image we will load and show on the screen
-SDL_Surface* test = NULL;
+//for resize
+SDL_Renderer *menu_renderer = NULL;
+SDL_Texture *menutex = NULL;
 
 int initialisation(void)
 {
@@ -23,6 +26,7 @@ int initialisation(void)
   if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
   {
     printf("SDL initialisation, Error: %s\n", SDL_GetError());
+    res = 1;
   }
   else
   {
@@ -32,6 +36,7 @@ int initialisation(void)
     if( window == NULL )
     {
       printf("Window creation, Error: %s\n", SDL_GetError());
+      res = 1;
     }
     else
     {
@@ -39,60 +44,87 @@ int initialisation(void)
       screenSurface = SDL_GetWindowSurface(window);
     }
   }
+  menu_renderer = SDL_CreateRenderer(window, -1,
+                                              SDL_RENDERER_ACCELERATED
+                                              | SDL_RENDERER_PRESENTVSYNC
+                                              | SDL_RENDERER_TARGETTEXTURE);
 
   return res;
 }
 
-int load_image(void)
+
+int load_apply_image_menu(void)
 {
-	int res = true;
+  SDL_RenderClear(menu_renderer);
+
+	int res = 0;
 
 	//Load splash image
-	test = SDL_LoadBMP( "02_getting_an_image_on_the_screen/hello_world.bmp" );
-	if( gHelloWorld == NULL )
+	menu = IMG_Load("../../images/menu.png");
+
+  menutex = SDL_CreateTextureFromSurface(menu_renderer, menu);
+
+  SDL_RenderCopy(menu_renderer, menutex, NULL, NULL);
+
+
+	if(menu == NULL)
 	{
-		printf( "Unable to load image %s! SDL Error: %s\n", "02_getting_an_image_on_the_screen/hello_world.bmp", SDL_GetError() );
-		success = false;
+		printf("Can't load image, Error: %s\n", SDL_GetError());
+		res = 1;
 	}
+
+  SDL_RenderPresent(menu_renderer);
 
 	return res;
 }
 
-void close()
+
+void quit_and_free(void)
 {
 	//Deallocate surface
-	SDL_FreeSurface( gHelloWorld );
-	gHelloWorld = NULL;
+	SDL_FreeSurface(menu);
+	menu = NULL;
 
 	//Destroy window
-	SDL_DestroyWindow( gWindow );
-	gWindow = NULL;
+	SDL_DestroyWindow(window);
+	window = NULL;
 
 	//Quit SDL subsystems
 	SDL_Quit();
 }
 
+
 int main(void)
 {
+  //Start up SDL and create window
+  if(initialisation() == 1)
+  {
+    printf("Fail initialisation\n");
+    return 1;
+  }
+  else
+  {
+    //Load media
+    if(load_apply_image_menu() == 1)
+    {
+      printf("Fail image\n");
+      return 1;
+    }
+    else
+    {
+      //Apply the image
+      //SDL_BlitSurface(menu, NULL, screenSurface, NULL);
 
-
-
-      //Fill the surface white
-      SDL_FillRect(screenSurface, NULL, 
-                   SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
-            
       //Update the surface
-      SDL_UpdateWindowSurface(window);
+      //SDL_UpdateWindowSurface(window);
 
       //Wait two seconds
-      SDL_Delay(2000);
+      SDL_Delay(5000);
     }
   }
-  //Destroy window
-  SDL_DestroyWindow(window);
 
-  //Quit SDL subsystems
-  SDL_Quit();
-  close();
+  //Free resources and close SDL
+  quit_and_free();
+
   return 0;
 }

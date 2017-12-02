@@ -44,4 +44,9 @@ struct context {
   struct character **enemies;
 };
 
+struct menu {
+  SDL_Surface *background;
+  SDL_Surface *button;
+};
+
 #endif /* !STRUCTURES_H */
