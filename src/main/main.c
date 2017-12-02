@@ -12,27 +12,23 @@ void update(struct context *context)
   SDL_RenderClear(context->renderer);
 
   generate_map(context);
-
   SDL_RenderPresent(context->renderer);
-  
-  SDL_Delay(1000);
 
-  int loop = 1;
+  //SDL_Delay(1000);
 
-  while (loop)
+
+  while (1)
   {
     SDL_Event e;
     
     while (SDL_PollEvent(&e))                                                        
     {                                                                                
       if (e.type == SDL_QUIT)                                                        
-      {
-        loop = 0;                                                                    
-        break;
-      }
+        return;
     }
-    loop = move_character(context, e);
-    
+
+    move_character(context, e);
+
     set_camera(context);
 
     SDL_RenderClear(context->renderer);

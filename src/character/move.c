@@ -16,8 +16,8 @@ int move_character(struct context *c, SDL_Event e)
   /* Key logic goes here. */
   //if (e.type == SDL_KEYDOWN)
   //{
-  printf("before: x = %f y = %f\n",
-      c->player->pos->x, c->player->pos->y);
+  //printf("before: x = %f y = %f\n",
+  //    c->player->pos->x, c->player->pos->y);
   float y = c->player->pos->y;
   float x = c->player->pos->x;
   float speed = c->player->speed;
@@ -57,7 +57,7 @@ int move_character(struct context *c, SDL_Event e)
   if (y + MOVE_SIZE < c->map->height
       && c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE)
     c->player->pos->y += GRAVITY;
-  printf("after: x = %f y = %f\n",
-      c->player->pos->x, c->player->pos->y);
+  //printf("after: x = %f y = %f\n",
+  //    c->player->pos->x, c->player->pos->y);
   return 1;
 }

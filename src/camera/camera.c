@@ -3,8 +3,8 @@
 
 void set_camera(struct context *context)
 {
-  context->camera->x = (context->player->pos->x + SCREEN_BPP / 2) - SCREEN_WIDTH / 2;
-  context->camera->y = (context->player->pos->y + SCREEN_BPP / 2) - SCREEN_HEIGHT / 2;
+  context->camera->x = context->player->pos->x;//(context->player->pos->x + SCREEN_BPP / 2) - SCREEN_WIDTH / 2;
+  context->camera->y = context->player->pos->y;//(context->player->pos->y + SCREEN_BPP / 2) - SCREEN_HEIGHT / 2;
 
   if (context->camera->x < 0)
     context->camera->x = 0;

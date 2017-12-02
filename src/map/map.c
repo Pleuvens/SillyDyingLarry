@@ -8,19 +8,19 @@ static void parse_file(struct context *context, char *path)
 {
   int width = 0;
   int height = 0;
-  
+
   FILE *f = fopen(path, "r");
-  
+
   fscanf(f, "%d %d", &width, &height);
 
   int *map = calloc(width * height, sizeof (int));
 
-  for (int i = 0; i < width; ++i)
+  for (int j = 0; j < height; ++j)
   {
-    for (int j = 0; j < height; ++j)
+    for (int i = 0; i < width; ++i)
     {
-      fscanf(f, "%d", map + i * height + j);
-      if (map[i * height + j] == 3)
+      fscanf(f, "%d", map + j * width + i);
+      if (map[j * width + i] == 3)
       {
         context->camera = calloc(1, sizeof (SDL_Rect));
         context->camera->x = i;
