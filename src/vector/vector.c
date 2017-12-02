@@ -50,5 +50,5 @@ struct vector2 *mult_vect_coef(struct vector2 a, float coef)
 
 double distance_vect(struct vector2 a, struct vector2 b)
 {
-  return sqrt(pow(a.x - b.x, 1) + pow(a.y - b.y, 2));
+  return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
 }
