@@ -3,8 +3,8 @@
 #include "../vector/vector.h"
 
 #define MOVE_SIZE 1
-#define JUMP_FORCE 1
-#define GRAVITY 1
+#define JUMP_FORCE 4
+#define GRAVITY 14
 
 static void poor_larry(struct context *context, float d_x, float d_y)
 {
@@ -35,8 +35,8 @@ static void cool_larry(struct context *context, float d_x, float d_y)
 
 static void move_up(struct context *c, float x, float y)
 {
-  poor_larry(c, 0, -JUMP_FORCE);
-  cool_larry(c, 0, -JUMP_FORCE);
+  poor_larry(c, 0, -1);
+  cool_larry(c, 0, -1);
   if (c->player->state != ALIVE)
     return;
   if (c->player->jumpf
