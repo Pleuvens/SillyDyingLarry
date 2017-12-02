@@ -53,7 +53,6 @@ static void move_right(struct context *c, float x, float y, float speed)
 //  poor_larry(c, speed, 0);
 //  if (x + speed < c->map->width
 //      && c->map->type[(int)y*c->map->width+(int)(x+speed)] == NONE)
-//=======
   poor_larry(c, speed, 0);
   cool_larry(c, speed, 0);
   if (c->player->state != ALIVE)
@@ -105,10 +104,8 @@ int move_character(struct context *c, SDL_Event e)
 
   if (y + GRAVITY < c->map->height
       && c->map->type[(int)(y+GRAVITY)*c->map->width + (int)x] == NONE)
-//=======
 //  if (y + MOVE_SIZE < c->map->height
 //      && c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE)
-//>>>>>>> move.c: ending is taken into account
     c->player->pos->y += GRAVITY;
 
   poor_larry(c, -GRAVITY, 0);
