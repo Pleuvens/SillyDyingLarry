@@ -17,27 +17,19 @@ void update(struct context *context)
   while (1)
   {
     SDL_Event e;
-    if (SDL_PollEvent(&e))
-    {
-      if (e.type == SDL_QUIT)
+    if (SDL_PollEvent(&e) && e.type == SDL_QUIT)
         break;
-      else if (e.type == SDL_KEYDOWN)
-      {
-        printf("before: x = %f y = %f\n",
-               context->player->pos->x, context->player->pos->y);
-        move_character(context, e);
-        printf("after: x = %f y = %f\n",
-               context->player->pos->x, context->player->pos->y);
-      }
-    }
+
+    move_character(context, e);
+
     SDL_RenderClear(context->renderer);
 
     update_map(context);
 
     SDL_RenderPresent(context->renderer);
-  }
 
-  SDL_Delay(2000);
+    SDL_Delay(52);
+  }
 }
 
 int main(void)
