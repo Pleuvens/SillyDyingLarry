@@ -25,6 +25,32 @@ static void parse_file(struct context *context, char *path)
   context->map->type = map;
 }
 
+static void apply_texture_init(struct context *context, SDL_Rect dst, int i,
+                               int j)
+{
+  switch (context->map->type[j * context->map->width + i])
+  {
+  case 0:
+    SDL_RenderCopy(context->renderer, context->backtex, NULL, &dst);
+    break;
+  case 1:
+    SDL_RenderCopy(context->renderer, context->groundtex, NULL, &dst);
+    break;
+  case 2:
+    SDL_RenderCopy(context->renderer, context->watertex, NULL, &dst);
+    break;
+  case 3:
+    SDL_RenderCopy(context->renderer, context->playertex, NULL, &dst);
+    context->map->type[j * context->map->width + i] = 0;
+    context->player = character_create();
+    context->player->pos->x = i;
+    context->player->pos->y = j;
+    break;
+  default:
+    break;
+  }
+}
+
 static void apply_texture(struct context *context, SDL_Rect dst, int i, int j)
 {
   switch (context->map->type[j * context->map->width + i])
@@ -40,6 +66,7 @@ static void apply_texture(struct context *context, SDL_Rect dst, int i, int j)
     break;
   case 3:
     SDL_RenderCopy(context->renderer, context->playertex, NULL, &dst);
+    context->map->type[j * context->map->width + i] = 0;
     break;
   default:
     break;
@@ -77,6 +104,28 @@ void generate_map(struct context *context)
 
   int width = context->map->width;
   int height = context->map->height;
+
+  for (int i = 0; i < width; i++)
+  {
+    for (int j = 0; j < height; ++j)
+    {
+      SDL_Rect dst =
+      {
+        i * 32, j * 32, 32, 32
+      };
+      apply_texture_init(context, dst, i, j); 
+    }
+  }
+}
+
+void update_map(struct context *context)
+{
+  int width = context->map->width;
+  int height = context->map->height;
+  
+  struct character *player = context->player;
+
+  context->map->type[player->pos->y * width + player->pos->x] = 3;
 
   for (int i = 0; i < width; i++)
   {
