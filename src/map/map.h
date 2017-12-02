@@ -8,6 +8,6 @@
 
 void generate_map(struct context *context);
 
-void update_mao(struct context *context);
+void update_map(struct context *context);
 
 #endif /* !MAP_H */
