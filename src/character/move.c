@@ -35,24 +35,20 @@ static void cool_larry(struct context *context, float d_x, float d_y)
 
 static void move_up(struct context *c, float x, float y)
 {
-//  poor_larry(c, 0, -JUMP_FORCE);
-//  if (y - JUMP_FORCE >= 0
-//      && c->map->type[(int)(y-JUMP_FORCE)*c->map->width+(int)x] == NONE)
-//    c->player->pos->y -= JUMP_FORCE;
   poor_larry(c, 0, -JUMP_FORCE);
   cool_larry(c, 0, -JUMP_FORCE);
   if (c->player->state != ALIVE)
     return;
-  if (y - JUMP_FORCE >= 0
+  if (c->player->jumpf
+      || c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE)
+    return;
+  if (y - JUMP_FORCE / c->delta_time >= 0
       && c->map->type[(int)(y-JUMP_FORCE)*c->map->width+(int)x] == NONE)
-    c->player->pos->y -= 2*MOVE_SIZE;
+    c->player->jumpf = JUMP_FORCE;
 }
 
 static void move_right(struct context *c, float x, float y, float speed)
 {
-//  poor_larry(c, speed, 0);
-//  if (x + speed < c->map->width
-//      && c->map->type[(int)y*c->map->width+(int)(x+speed)] == NONE)
   poor_larry(c, speed, 0);
   cool_larry(c, speed, 0);
   if (c->player->state != ALIVE)
@@ -65,9 +61,6 @@ static void move_right(struct context *c, float x, float y, float speed)
 
 static void move_left(struct context *c, float x, float y, float speed)
 {
-  //poor_larry(c, -speed, 0);
-  //if (x - speed >= 0
-  //    && c->map->type[(int)y*c->map->width+(int)(x-speed)] == NONE)
   poor_larry(c, -speed, 0);
   cool_larry(c, -speed, 0);
   if (c->player->state != ALIVE)
@@ -84,14 +77,13 @@ int move_character(struct context *c, SDL_Event e)
   const Uint8 *keystates = SDL_GetKeyboardState(NULL);
   float y = c->player->pos->y;
   float x = c->player->pos->x;
-  float speed = c->player->speed;
+  float speed = c->player->speed * 20 / c->delta_time;
 
   Uint8 up = keystates[SDL_SCANCODE_UP];
   Uint8 left = keystates[SDL_SCANCODE_LEFT];
   Uint8 right = keystates[SDL_SCANCODE_RIGHT];
 
   /* Key logic goes here. */
-
   if (up)
     move_up(c, x, y);
   if (right)
@@ -102,11 +94,16 @@ int move_character(struct context *c, SDL_Event e)
   y = c->player->pos->y;
   x = c->player->pos->x;
 
-  if (y + GRAVITY < c->map->height
-      && c->map->type[(int)(y+GRAVITY)*c->map->width + (int)x] == NONE)
-//  if (y + MOVE_SIZE < c->map->height
-//      && c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE)
-    c->player->pos->y += GRAVITY;
+  if (c->player->jumpf)
+  {
+    c->player->pos->y -= speed*2;
+    c->player->jumpf -= MOVE_SIZE;
+    if (c->player->jumpf < 0)
+      c->player->jumpf = 0;
+  }
+  else if (y + MOVE_SIZE < c->map->height
+      && c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE)
+    c->player->pos->y += GRAVITY / c->delta_time;
 
   poor_larry(c, -GRAVITY, 0);
   if (c->map->type[(int)(y+1)*c->map->width+(int)x] == HARMING_GROUND)
