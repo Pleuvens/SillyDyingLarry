@@ -50,6 +50,28 @@ SDL_Rect init_rect(int w, int h, int cpt)
   return rect;
 }
 
+void destroy_menu(SDL_Window *w, SDL_Renderer *r, struct button *b)
+{
+  if (b)
+  {
+    SDL_DestroyTexture(b->backtex);
+    SDL_DestroyTexture(b->btexpo);
+    SDL_DestroyTexture(b->btexpf);
+    SDL_DestroyTexture(b->btexoo);
+    SDL_DestroyTexture(b->btexof);
+    SDL_DestroyTexture(b->btexqo);
+    SDL_DestroyTexture(b->btexqf);
+
+    free(b);
+  }
+
+  if (r)
+    SDL_DestroyRenderer(r);
+
+  if (w)
+    SDL_DestroyWindow(w);
+}
+
 
 int menu(int screen_w, int screen_h)
 {
@@ -177,6 +199,8 @@ int menu(int screen_w, int screen_h)
 
     SDL_Delay(110);
   }
+
+  destroy_menu(screen, renderer, b);
 
   if (opt == 1)
     return 1;
