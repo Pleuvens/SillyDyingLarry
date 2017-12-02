@@ -101,6 +101,10 @@ static void apply_texture(struct context *context, SDL_Rect dst, int i, int j)
   case 4:
     SDL_RenderCopy(context->renderer, context->enemytex, NULL, &dst);
     context->map->type[j * context->map->width + i] = 0;
+    break;
+  case 5:
+    SDL_RenderCopy(context->renderer, context->endtex, NULL, &dst);
+    break;
   default:
     break;
   }
@@ -113,6 +117,7 @@ static void load_textures(struct context *context)
   SDL_Surface *playersurf = IMG_Load("images/player.png");
   SDL_Surface *watersurf = IMG_Load("images/water.png");
   SDL_Surface *enemysurf = IMG_Load("images/enemy.png");
+  SDL_Surface *endsurf = IMG_Load("images/end.png");
   context->backtex = SDL_CreateTextureFromSurface(context->renderer,
                                                        backsurf);
   context->groundtex = SDL_CreateTextureFromSurface(context->renderer,
@@ -123,11 +128,15 @@ static void load_textures(struct context *context)
                                                        watersurf);
   context->enemytex = SDL_CreateTextureFromSurface(context->renderer,
                                                       enemysurf);
+  context->endtex = SDL_CreateTextureFromSurface(context->renderer,
+                                                       endsurf);
+ 
   SDL_FreeSurface(backsurf);
   SDL_FreeSurface(groundsurf);
   SDL_FreeSurface(playersurf);
   SDL_FreeSurface(watersurf);
   SDL_FreeSurface(enemysurf);
+  SDL_FreeSurface(endsurf);
 }
 
 void generate_map(struct context *context)
