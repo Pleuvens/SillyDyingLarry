@@ -19,6 +19,12 @@ void update(struct context *context)
     {
       if (e.type == SDL_QUIT)
         break;
+      else if (e.type == SDL_KEYDOWN)
+      {
+        printf("before: x = %f y = %f\n", context->pos->x, context->pos->y)
+        move_character(context->player, e);
+        printf("after: x = %f y = %f\n", context->pos->x, context->pos->y)
+      }
     }
     SDL_RenderClear(context->renderer);
 
