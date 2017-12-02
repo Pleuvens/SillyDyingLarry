@@ -45,8 +45,6 @@ void update(struct context *context)
 
     context->delta_time = (time_now - time_last) * 1000 / frequency;
 
-    printf("%f\n", context->delta_time);
-
     SDL_Event e;
 
     while (SDL_PollEvent(&e))

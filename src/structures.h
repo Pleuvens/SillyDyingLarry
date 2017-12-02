@@ -30,6 +30,7 @@ struct character
   int previous_tile;
   enum move move;
   SDL_Rect rect;
+  float jumpf;
 };
 
 enum type

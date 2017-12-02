@@ -3,8 +3,8 @@
 #include "../vector/vector.h"
 
 #define MOVE_SIZE 1
-#define JUMP_FORCE 80
-#define GRAVITY 1
+#define JUMP_FORCE 3
+#define GRAVITY 6
 
 static void poor_larry(struct context *context, float d_x, float d_y)
 {
@@ -26,10 +26,15 @@ static void poor_larry(struct context *context, float d_x, float d_y)
 
 static void move_up(struct context *c, float x, float y)
 {
+  if (c->player->jumpf || c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE)
+    return;
   poor_larry(c, 0, -JUMP_FORCE);
-  if (y - JUMP_FORCE >= 0
+  if (y - JUMP_FORCE / c->delta_time >= 0
       && c->map->type[(int)(y-JUMP_FORCE)*c->map->width+(int)x] == NONE)
-    c->player->pos->y -= JUMP_FORCE / c->delta_time;
+  {
+    //c->player->pos->y -= GRAVITY * c->delta_time;//2 * GRAVITY / 3 * c->delta_time;
+    c->player->jumpf = JUMP_FORCE;
+  }
 }
 
 static void move_right(struct context *c, float x, float y, float speed)
@@ -72,8 +77,15 @@ int move_character(struct context *c, SDL_Event e)
   y = c->player->pos->y;
   x = c->player->pos->x;
 
-  if (y + GRAVITY < c->map->height
-      && c->map->type[(int)(y+GRAVITY)*c->map->width + (int)x] == NONE)
+  if (c->player->jumpf)
+  {
+    c->player->pos->y -= speed * 2;
+    c->player->jumpf -= 1;
+    if (c->player->jumpf <= 0)
+      c->player->jumpf = 0;
+  }
+  else if (y + MOVE_SIZE / c->delta_time < c->map->height
+      && c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE)
     c->player->pos->y += GRAVITY / c->delta_time;
 
   poor_larry(c, -GRAVITY, 0);
