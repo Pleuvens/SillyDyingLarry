@@ -7,6 +7,24 @@
 #include "../character/character.h"
 #include "../camera/camera.h"
 
+
+static int init(struct context *context)
+{
+  context->window = SDL_CreateWindow("Silly Dying Larry", 0, 0, SCREEN_WIDTH,
+                                     SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
+  context->renderer = SDL_CreateRenderer(context->window, -1,
+                                              SDL_RENDERER_ACCELERATED
+                                              | SDL_RENDERER_PRESENTVSYNC
+                                              | SDL_RENDERER_TARGETTEXTURE);
+
+  if (!context->window)
+  {
+    printf("Failed to create window: %s\n", SDL_GetError());
+    return 1;
+  }
+  return 0;
+}
+
 void update(struct context *context)
 {
   SDL_RenderClear(context->renderer);
@@ -20,14 +38,27 @@ void update(struct context *context)
   while (1)
   {
     SDL_Event e;
-    
-    while (SDL_PollEvent(&e))                                                        
-    {                                                                                
-      if (e.type == SDL_QUIT)                                                        
+
+    while (SDL_PollEvent(&e))
+    {
+      if (e.type == SDL_QUIT)
         return;
     }
 
     move_character(context, e);
+
+    if (context->player->state == DEAD)
+    {
+      printf("DEAAAAD\n");
+      SDL_RenderClear(context->renderer);
+      generate_map(context);
+      SDL_RenderPresent(context->renderer);
+      context->player->state = ALIVE;
+      SDL_Delay(1000);
+      continue;
+
+    }
+
 
     set_camera(context);
 
@@ -49,19 +80,11 @@ int main(void)
     SDL_Log("Failed to init SDL: %s\n", SDL_GetError());
     return 1;
   }
-  struct context *context = calloc(1, sizeof (struct context));
-  context->window = SDL_CreateWindow("Silly Dying Larry", 0, 0, SCREEN_WIDTH,
-                                     SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
-  context->renderer = SDL_CreateRenderer(context->window, -1,
-                                              SDL_RENDERER_ACCELERATED
-                                              | SDL_RENDERER_PRESENTVSYNC
-                                              | SDL_RENDERER_TARGETTEXTURE);
 
-  if (!context->window)
-  {
-    printf("Failed to create window: %s\n", SDL_GetError());
+  struct context *context = calloc(1, sizeof (struct context));
+
+  if (init(context) == 1)
     return 1;
-  }
 
   update(context);
 
