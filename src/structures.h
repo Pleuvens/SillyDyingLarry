@@ -24,6 +24,13 @@ enum move
   RIGHT
 };
 
+struct rect {
+  float x;
+  float y;
+  int w;
+  int h;
+};
+
 struct character
 {
   struct vector2 *pos;
@@ -61,7 +68,7 @@ struct context {
   SDL_Texture *enemytex;
   SDL_Texture *endtex;
   struct character *player;
-  SDL_Rect *camera;
+  struct rect *camera;
   int nb_enemies;
   struct character **enemies;
   float delta_time;

@@ -33,7 +33,7 @@ static void parse_file(struct context *context, char *path)
       if (map[j * width + i] == 3)
       {
         map[j * width + i] = 0;
-        context->camera = calloc(1, sizeof (SDL_Rect));
+        context->camera = calloc(1, sizeof (struct rect *));
         context->camera->x = i - SCREEN_BPP / 2;
         context->camera->y = j - SCREEN_BPP / 2;
         context->camera->w = SCREEN_WIDTH;
