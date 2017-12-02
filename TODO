@@ -6,9 +6,16 @@
   -> Do collisions
   -> Gravity
   -> Static enemies
-
-  *** Next time ***
+  -> Delta time
   -> Menu
   -> Moving enemy
+  -> Background music
+  -> Finish block
+  -> Camera
+
+  *** Next time ***
+  -> Level handler
+  -> Jump
   -> Aesthetics
-  -> Death screen or sound
+  -> Death screen
+  -> Sound effects
