@@ -13,7 +13,8 @@
 enum state
 {
   ALIVE = 0,
-  DEAD
+  DEAD,
+  WON
 };
 
 enum move
@@ -37,7 +38,8 @@ enum type
 {
   NONE = 0,
   GROUND = 1,
-  HARMING_GROUND = 2
+  HARMING_GROUND = 2,
+  END = 5
 };
 
 struct map

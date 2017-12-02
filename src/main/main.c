@@ -75,7 +75,7 @@ void update(struct context *context)
 
     SDL_RenderPresent(context->renderer);
 
-    SDL_Delay(52);
+    SDL_Delay(60);
   }
 }
 
