@@ -61,6 +61,8 @@ static void parse_file(struct context *context, char *path)
 
 int is_on_screen(struct context *context, int i, int j)
 {
+  if (i < 0 || i >= context->map->width || j < 0 || j >= context->map->height)
+    return 0;
   int infx = context->camera->x - SCREEN_WIDTH / 2;
   int supx = context->camera->x + SCREEN_WIDTH / 2;
   int infy = context->camera->y - SCREEN_HEIGHT / 2;
@@ -169,9 +171,11 @@ void update_map(struct context *context)
     {
       SDL_Rect dst =
       {
-        i * 32, j * 32, 32, 32
+        i * 32 + context->camera->x, j * 32 + context->camera->y, 32, 32
       };
-      apply_texture(context, dst, i, j); 
+      apply_texture(context, dst, i + context->camera->x, j + context->camera->y); 
     }
   }
+  printf("player: %f %f\ncamera: %d %d\n", player->pos->x, player->pos->y,
+         context->camera->x, context->camera->y);
 }
