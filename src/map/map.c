@@ -88,6 +88,7 @@ static void apply_texture(struct context *context, SDL_Rect dst, int i, int j)
     break;
   case 4:
     SDL_RenderCopy(context->renderer, context->enemytex, NULL, &dst);
+    context->map->type[j * context->map->width + i] = 0;
   default:
     break;
   }

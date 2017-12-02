@@ -15,4 +15,6 @@ int character_move(struct character *c, struct vector2 new_pos);
 
 int move_character(struct context *c, SDL_Event e);
 
+void move_enemies(struct context *c);
+
 #endif /* !CHARACTER_H */

@@ -57,6 +57,8 @@ void update(struct context *context)
       continue;
     }
 
+    move_enemies(context);
+
     set_camera(context);
 
     SDL_RenderClear(context->renderer);
