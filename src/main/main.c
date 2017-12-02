@@ -13,14 +13,14 @@ void update(struct context *context)
   generate_map(context);
 
   SDL_RenderPresent(context->renderer);
-  
-  while (1)
+
+  int loop = 1;
+
+  while (loop)
   {
     SDL_Event e;
-    if (SDL_PollEvent(&e) && e.type == SDL_QUIT)
-        break;
 
-    move_character(context, e);
+    loop = move_character(context, e);
 
     SDL_RenderClear(context->renderer);
 
