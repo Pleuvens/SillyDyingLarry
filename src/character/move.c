@@ -7,15 +7,15 @@
 
 static void poor_larry(struct context *context, float d_x, float d_y)
 {
-  float x = context->player->pos->x + d_x;
-  float y = context->player->pos->y + d_y;
+  int x = context->player->pos->x + d_x;
+  int y = context->player->pos->y + d_y;
 
   if (!context->enemies)
     return;
   for (int i = 0; i < context->nb_enemies; i++)
   {
     struct character *enemy = context->enemies[i];
-    if (enemy->pos->x == x && enemy->pos->y == y)
+    if ((int)enemy->pos->x == x && (int)enemy->pos->y == y)
     {
       context->player->state = DEAD;
       return;

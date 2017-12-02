@@ -14,7 +14,16 @@ static void parse_file(struct context *context, char *path)
   fscanf(f, "%d %d", &width, &height);
 
   int *map = calloc(width * height, sizeof (int));
-  context->nb_enemies = 0;
+  
+  if (context->nb_enemies)
+  {
+    for (int i = 0; i < context->nb_enemies; ++i)
+      free(context->enemies[i]);
+    free(context->enemies);
+    context->enemies = NULL;
+  }
+
+  context->nb_enemies = 0; 
 
   for (int j = 0; j < height; ++j)
   {
