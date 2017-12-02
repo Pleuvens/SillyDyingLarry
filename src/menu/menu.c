@@ -5,6 +5,52 @@
 
 #include "../structures.h"
 
+
+struct button *init_button(SDL_Renderer *renderer)
+{
+  struct button *b = malloc(sizeof(struct button));
+
+  SDL_Surface *background = IMG_Load("images/menu.png");
+
+  SDL_Surface *buttonpo = IMG_Load("images/ButtonSelectOn.png");
+  SDL_Surface *buttonpf = IMG_Load("images/ButtonSelectOff.png");
+  SDL_Surface *buttonoo = IMG_Load("images/ButtonOptionsOn.png");
+  SDL_Surface *buttonof = IMG_Load("images/ButtonOptionsOff.png");
+  SDL_Surface *buttonqo = IMG_Load("images/ButtonQuitOn.png");
+  SDL_Surface *buttonqf = IMG_Load("images/ButtonQuitOff.png");
+
+  b->backtex = SDL_CreateTextureFromSurface(renderer, background);
+
+  b->btexpo = SDL_CreateTextureFromSurface(renderer, buttonpo);
+  b->btexpf = SDL_CreateTextureFromSurface(renderer, buttonpf);
+  b->btexoo = SDL_CreateTextureFromSurface(renderer, buttonoo);
+  b->btexof = SDL_CreateTextureFromSurface(renderer, buttonof);
+  b->btexqo = SDL_CreateTextureFromSurface(renderer, buttonqo);
+  b->btexqf = SDL_CreateTextureFromSurface(renderer, buttonqf);
+
+  SDL_FreeSurface(buttonpo);
+  SDL_FreeSurface(buttonpf);
+  SDL_FreeSurface(buttonoo);
+  SDL_FreeSurface(buttonof);
+  SDL_FreeSurface(buttonqo);
+  SDL_FreeSurface(buttonqf);
+
+  return b;
+}
+
+SDL_Rect init_rect(int w, int h, int cpt)
+{
+  SDL_Rect rect;
+
+  rect.w = w / 5;
+  rect.h = h / 12;
+  rect.x = (w / 2) - (rect.w / 2);
+  rect.y = h / 2 + (rect.h * cpt);
+
+  return rect;
+}
+
+
 int menu(int screen_w, int screen_h)
 {
   int end = 0;
@@ -37,56 +83,19 @@ int menu(int screen_w, int screen_h)
 
   // end of music
 
-  SDL_Surface *background = IMG_Load("images/menu.png");
-
-  SDL_Surface *buttonpo = IMG_Load("images/ButtonSelectOn.png");
-  SDL_Surface *buttonpf = IMG_Load("images/ButtonSelectOff.png");
-  SDL_Surface *buttonoo = IMG_Load("images/ButtonOptionsOn.png");
-  SDL_Surface *buttonof = IMG_Load("images/ButtonOptionsOff.png");
-  SDL_Surface *buttonqo = IMG_Load("images/ButtonQuitOn.png");
-  SDL_Surface *buttonqf = IMG_Load("images/ButtonQuitOff.png");
-
-  SDL_Texture *backtex = SDL_CreateTextureFromSurface(renderer, background);
-
-  SDL_Texture *btexpo = SDL_CreateTextureFromSurface(renderer, buttonpo);
-  SDL_Texture *btexpf = SDL_CreateTextureFromSurface(renderer, buttonpf);
-  SDL_Texture *btexoo = SDL_CreateTextureFromSurface(renderer, buttonoo);
-  SDL_Texture *btexof = SDL_CreateTextureFromSurface(renderer, buttonof);
-  SDL_Texture *btexqo = SDL_CreateTextureFromSurface(renderer, buttonqo);
-  SDL_Texture *btexqf = SDL_CreateTextureFromSurface(renderer, buttonqf);
-
-  SDL_FreeSurface(buttonpo);
-  SDL_FreeSurface(buttonpf);
-  SDL_FreeSurface(buttonoo);
-  SDL_FreeSurface(buttonof);
-  SDL_FreeSurface(buttonqo);
-  SDL_FreeSurface(buttonqf);
+  struct button *b = init_button(renderer);
 
   SDL_RenderClear(renderer);
 
-  SDL_Rect rectplay;
-  rectplay.w = screen_w / 5;
-  rectplay.h = screen_h / 12;
-  rectplay.x = (screen_w / 2) - (rectplay.w / 2);
-  rectplay.y = screen_h / 2;
+  SDL_Rect rectplay = init_rect(screen_w, screen_h, 0);
+  SDL_Rect rectoptions = init_rect(screen_w, screen_h, 2);
+  SDL_Rect rectquit = init_rect(screen_w, screen_h, 4);
 
-  SDL_Rect rectoptions;
-  rectoptions.w = screen_w / 5;
-  rectoptions.h = screen_h / 12;
-  rectoptions.x = (screen_w / 2) - (rectoptions.w / 2);
-  rectoptions.y = screen_h / 2 + (rectoptions.h * 2);
+  SDL_RenderCopy(renderer, b->backtex, NULL, NULL);
 
-  SDL_Rect rectquit;
-  rectquit.w = screen_w / 5;
-  rectquit.h = screen_h / 12;
-  rectquit.x = (screen_w / 2) - (rectquit.w / 2);
-  rectquit.y = screen_h / 2 + (rectquit.h * 4);
-
-  SDL_RenderCopy(renderer, backtex, NULL, NULL);
-
-  SDL_RenderCopy(renderer, btexpo, NULL, &rectplay);
-  SDL_RenderCopy(renderer, btexof, NULL, &rectoptions);
-  SDL_RenderCopy(renderer, btexqf, NULL, &rectquit);
+  SDL_RenderCopy(renderer, b->btexpo, NULL, &rectplay);
+  SDL_RenderCopy(renderer, b->btexof, NULL, &rectoptions);
+  SDL_RenderCopy(renderer, b->btexqf, NULL, &rectquit);
 
   int whichbutton = 0;
 
@@ -141,36 +150,33 @@ int menu(int screen_w, int screen_h)
 
     SDL_RenderClear(renderer);
 
-    SDL_RenderCopy(renderer, backtex, NULL, NULL);
+    SDL_RenderCopy(renderer, b->backtex, NULL, NULL);
 
     if (whichbutton == 0)
     {
-      SDL_RenderCopy(renderer, btexpo, NULL, &rectplay);
-      SDL_RenderCopy(renderer, btexof, NULL, &rectoptions);
-      SDL_RenderCopy(renderer, btexqf, NULL, &rectquit);
+      SDL_RenderCopy(renderer, b->btexpo, NULL, &rectplay);
+      SDL_RenderCopy(renderer, b->btexof, NULL, &rectoptions);
+      SDL_RenderCopy(renderer, b->btexqf, NULL, &rectquit);
     }
 
     else if (whichbutton == 1)
     {
-      SDL_RenderCopy(renderer, btexpf, NULL, &rectplay);
-      SDL_RenderCopy(renderer, btexoo, NULL, &rectoptions);
-      SDL_RenderCopy(renderer, btexqf, NULL, &rectquit);
+      SDL_RenderCopy(renderer, b->btexpf, NULL, &rectplay);
+      SDL_RenderCopy(renderer, b->btexoo, NULL, &rectoptions);
+      SDL_RenderCopy(renderer, b->btexqf, NULL, &rectquit);
     }
 
     else if (whichbutton == 2)
     {
-      SDL_RenderCopy(renderer, btexpf, NULL, &rectplay);
-      SDL_RenderCopy(renderer, btexof, NULL, &rectoptions);
-      SDL_RenderCopy(renderer, btexqo, NULL, &rectquit);
+      SDL_RenderCopy(renderer, b->btexpf, NULL, &rectplay);
+      SDL_RenderCopy(renderer, b->btexof, NULL, &rectoptions);
+      SDL_RenderCopy(renderer, b->btexqo, NULL, &rectquit);
     }
 
     SDL_RenderPresent(renderer);
 
     SDL_Delay(110);
   }
-
-  if (background)
-    SDL_FreeSurface(background);
 
   if (opt == 1)
     return 1;

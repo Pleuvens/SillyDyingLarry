@@ -67,9 +67,14 @@ struct context {
   float delta_time;
 };
 
-struct menu {
-  SDL_Surface *background;
-  SDL_Surface *button;
+struct button {
+  SDL_Texture *backtex;
+  SDL_Texture *btexpo; 
+  SDL_Texture *btexpf;
+  SDL_Texture *btexoo;
+  SDL_Texture *btexof;
+  SDL_Texture *btexqo;
+  SDL_Texture *btexqf;
 };
 
 #endif /* !STRUCTURES_H */
