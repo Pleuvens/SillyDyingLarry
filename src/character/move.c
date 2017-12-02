@@ -1,10 +1,10 @@
 #include <stdio.h>
-#include "../vector/vector.h"
 #include "character.h"
+#include "../vector/vector.h"
 
-#define MOVE_SIZE 10
+#define MOVE_SIZE 1
 
-void move_character(struct character *c, SDL_Event e)
+void move_character(struct context *c, SDL_Event e)
 {
   if (e.type == SDL_KEYDOWN)
   {
@@ -12,17 +12,20 @@ void move_character(struct character *c, SDL_Event e)
     {
       case SDLK_UP:
       {
-        c->pos->y += MOVE_SIZE;
+        if (c->player->pos->y - MOVE_SIZE >= 0)
+          c->player->pos->y -= MOVE_SIZE;
         break;
       }
       case SDLK_RIGHT:
       {
-        c->pos->x += MOVE_SIZE;
+        if (c->player->pos->x + MOVE_SIZE < c->map->width)
+          c->player->pos->x += MOVE_SIZE;
         break;
       }
       case SDLK_LEFT:
       {
-        c->pos->x -= MOVE_SIZE;
+        if (c->player->pos->x - MOVE_SIZE >= 0)
+          c->player->pos->x -= MOVE_SIZE;
         break;
       }
     }
