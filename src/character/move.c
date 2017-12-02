@@ -7,6 +7,7 @@
 
 static void move_up(struct context *c, float x, float y)
 {
+  int test=test;
   if (y - MOVE_SIZE >= 0
       && c->map->type[(int)(y-MOVE_SIZE)*c->map->width+(int)x] == NONE)
     c->player->pos->y -= 2*MOVE_SIZE;
