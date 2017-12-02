@@ -32,6 +32,7 @@ static void parse_file(struct context *context, char *path)
       fscanf(f, "%d", map + j * width + i);
       if (map[j * width + i] == 3)
       {
+        map[j * width + i] = 0;
         context->camera = calloc(1, sizeof (SDL_Rect));
         context->camera->x = i;
         context->camera->y = j;
@@ -40,6 +41,10 @@ static void parse_file(struct context *context, char *path)
         context->player = character_create();
         context->player->pos->x = i;
         context->player->pos->y = j;
+        context->player->rect.x = i;
+        context->player->rect.y = j;
+        context->player->rect.w = SCREEN_BPP;
+        context->player->rect.h = SCREEN_BPP;
       }
       if (map[j * width + i] == 4)
       {
@@ -92,10 +97,6 @@ static void apply_texture(struct context *context, SDL_Rect dst, int i, int j)
     break;
   case 2:
     SDL_RenderCopy(context->renderer, context->watertex, NULL, &dst);
-    break;
-  case 3:
-    SDL_RenderCopy(context->renderer, context->playertex, NULL, &dst);
-    context->map->type[j * context->map->width + i] = context->player->previous_tile;
     break;
   case 4:
     SDL_RenderCopy(context->renderer, context->enemytex, NULL, &dst);
@@ -157,8 +158,6 @@ void update_map(struct context *context)
   
   struct character *player = context->player;
 
-  context->map->type[(int)player->pos->y * width + (int)player->pos->x] = 3;
-
   for (int ie = 0; ie < context->nb_enemies; ++ie)
   {
     struct character *enemy = context->enemies[ie];
@@ -176,6 +175,10 @@ void update_map(struct context *context)
       apply_texture(context, dst, i + context->camera->x, j + context->camera->y); 
     }
   }
-  printf("player: %f %f\ncamera: %d %d\n", player->pos->x, player->pos->y,
-         context->camera->x, context->camera->y);
+  
+  player->rect.x = player->pos->x * SCREEN_BPP;
+  player->rect.y = player->pos->y * SCREEN_BPP;
+  
+  SDL_RenderCopy(context->renderer, context->playertex, NULL, &(player->rect));
+
 }

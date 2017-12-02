@@ -3,6 +3,7 @@
 #include "../vector/vector.h"
 
 #define MOVE_SIZE 1
+#define JUMP_FORCE 1
 #define GRAVITY 1
 
 static void poor_larry(struct context *context, float d_x, float d_y)
@@ -25,25 +26,25 @@ static void poor_larry(struct context *context, float d_x, float d_y)
 
 static void move_up(struct context *c, float x, float y)
 {
-  poor_larry(c, 0, -1);
-  if (y - MOVE_SIZE >= 0
-      && c->map->type[(int)(y-MOVE_SIZE)*c->map->width+(int)x] == NONE)
-    c->player->pos->y -= 2*MOVE_SIZE;
+  poor_larry(c, 0, -JUMP_FORCE);
+  if (y - JUMP_FORCE >= 0
+      && c->map->type[(int)(y-JUMP_FORCE)*c->map->width+(int)x] == NONE)
+    c->player->pos->y -= JUMP_FORCE;
 }
 
 static void move_right(struct context *c, float x, float y, float speed)
 {
-  poor_larry(c, 1, 0);
-  if (x + MOVE_SIZE < c->map->width
-      && c->map->type[(int)y*c->map->width+(int)(x+MOVE_SIZE)] == NONE)
+  poor_larry(c, speed, 0);
+  if (x + speed < c->map->width
+      && c->map->type[(int)y*c->map->width+(int)(x+speed)] == NONE)
     c->player->pos->x += speed;
 }
 
 static void move_left(struct context *c, float x, float y, float speed)
 {
-  poor_larry(c, -1, 0);
-  if (x - MOVE_SIZE >= 0
-      && c->map->type[(int)y*c->map->width+(int)(x-MOVE_SIZE)] == NONE)
+  poor_larry(c, -speed, 0);
+  if (x - speed >= 0
+      && c->map->type[(int)y*c->map->width+(int)(x-speed)] == NONE)
     c->player->pos->x -= speed;
 }
 
@@ -71,11 +72,11 @@ int move_character(struct context *c, SDL_Event e)
   y = c->player->pos->y;
   x = c->player->pos->x;
 
-  if (y + MOVE_SIZE < c->map->height
-      && c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE)
+  if (y + GRAVITY < c->map->height
+      && c->map->type[(int)(y+GRAVITY)*c->map->width + (int)x] == NONE)
     c->player->pos->y += GRAVITY;
 
-  poor_larry(c, -1, 0);
+  poor_larry(c, -GRAVITY, 0);
   if (c->map->type[(int)(y+1)*c->map->width+(int)x] == HARMING_GROUND)
     c->player->state = DEAD;
 
