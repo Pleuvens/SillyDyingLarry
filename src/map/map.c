@@ -1,5 +1,6 @@
 #include "../main/main.h"
 #include "map.h"
+#include "../vector/vector.h"
 
 static void parse_file(struct context *context, char *path)
 {
@@ -125,7 +126,7 @@ void update_map(struct context *context)
   
   struct character *player = context->player;
 
-  context->map->type[player->pos->y * width + player->pos->x] = 3;
+  context->map->type[(int)player->pos->y * width + (int)player->pos->x] = 3;
 
   for (int i = 0; i < width; i++)
   {
