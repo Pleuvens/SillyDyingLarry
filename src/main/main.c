@@ -77,8 +77,9 @@ int main(void)
 
   printf("salut\n");
 
-  while (status != 0 && status != 1)
+  while (status != 0 && status != -1)
   {
+    printf("%d\n", status);
     if (status == 1)
       status = menu(1280, 1024);
   }
