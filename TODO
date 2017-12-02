@@ -5,9 +5,9 @@
   -> Move character
   -> Do collisions
   -> Gravity
+  -> Static enemies
 
   *** Next time ***
   -> Menu
-  -> Static enemies
   -> Moving enemy
   -> Aesthetics
