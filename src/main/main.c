@@ -49,16 +49,13 @@ void update(struct context *context)
 
     if (context->player->state == DEAD)
     {
-      printf("DEAAAAD\n");
       SDL_RenderClear(context->renderer);
       generate_map(context);
       SDL_RenderPresent(context->renderer);
       context->player->state = ALIVE;
       SDL_Delay(1000);
       continue;
-
     }
-
 
     set_camera(context);
 
