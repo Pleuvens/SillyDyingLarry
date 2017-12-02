@@ -7,4 +7,4 @@ menu:
 	$(CC) $(CFLAGS) $(OBJ) -o menu
 
 clean:
-	$(RM) Silly-Dying-Larry *.o
+	$(RM) menu *.o
