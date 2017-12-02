@@ -3,7 +3,18 @@
 
 # include <SDL2/SDL.h>
 # include <SDL2/SDL_image.h>
-#include "character/character.h"
+
+enum state
+{
+  ALIVE = 0,
+  DEAD
+};
+
+struct character
+{
+  struct vector2 *pos;
+  enum state state;
+};
 
 enum type
 {
