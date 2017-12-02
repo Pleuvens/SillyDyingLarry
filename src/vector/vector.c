@@ -1,3 +1,4 @@
+#include <math.h>
 #include "vector.h"
 
 struct vector2 *create_vect(void)
@@ -45,4 +46,9 @@ struct vector2 *mult_vect_coef(struct vector2 a, float coef)
   res->x = a.x * coef;
   res->y = a.y * coef;
   return res;
+}
+
+double distance_vect(struct vector2 a, struct vector2 b)
+{
+  return sqrt(pow(a.x - b.x, 1) + pow(a.y - b.y, 2));
 }
