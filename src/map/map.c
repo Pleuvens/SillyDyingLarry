@@ -187,7 +187,7 @@ void update_map(struct context *context)
   
   player->rect.x = (player->pos->x - context->camera->x) * SCREEN_BPP;
   player->rect.y = (player->pos->y - context->camera->y) * SCREEN_BPP;
-  
+ 
   SDL_RenderCopy(context->renderer, context->playertex, NULL, &(player->rect));
 
 }
