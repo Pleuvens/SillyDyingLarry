@@ -1,10 +1,10 @@
 CC=gcc
 CFLAGS=-g -Wall -Wextra -Werror -pedantic -std=c99 -lSDL2 -lSDL2_image
 
-OBJ=src/vector/vector.c src/character/character.c src/character/move.c \
-src/map/map.c src/camera/camera.c src/main/main.c
+OBJ=src/vector/vector.o src/character/character.o src/character/move.o \
+src/map/map.o src/camera/camera.o src/main/main.o
 
-Silly-Dying-Larry:
+Silly-Dying-Larry: $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o Silly-Dying-Larry
 
 clean:
