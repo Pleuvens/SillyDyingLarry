@@ -5,6 +5,7 @@
 #include "../map/map.h"
 #include "../vector/vector.h"
 #include "../character/character.h"
+#include "../camera/camera.h"
 
 void update(struct context *context)
 {
@@ -13,6 +14,8 @@ void update(struct context *context)
   generate_map(context);
 
   SDL_RenderPresent(context->renderer);
+  
+  SDL_Delay(1000);
 
   int loop = 1;
 
@@ -29,6 +32,8 @@ void update(struct context *context)
       }
     }
     loop = move_character(context, e);
+    
+    set_camera(context);
 
     SDL_RenderClear(context->renderer);
 
@@ -49,8 +54,8 @@ int main(void)
     return 1;
   }
   struct context *context = calloc(1, sizeof (struct context));
-  context->window = SDL_CreateWindow("Silly Dying Larry", 0, 0, 800, 600,
-                                        SDL_WINDOW_OPENGL);
+  context->window = SDL_CreateWindow("Silly Dying Larry", 0, 0, SCREEN_WIDTH,
+                                     SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
   context->renderer = SDL_CreateRenderer(context->window, -1,
                                               SDL_RENDERER_ACCELERATED
                                               | SDL_RENDERER_PRESENTVSYNC

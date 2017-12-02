@@ -22,11 +22,11 @@ static void parse_file(struct context *context, char *path)
       fscanf(f, "%d", map + i * height + j);
       if (map[i * height + j] == 3)
       {
-        SDL_Rect c =
-        {
-          i, j, SCREEN_WIDTH, SCREEN_HEIGHT
-        };
-        context->camera = &c;
+        context->camera = calloc(1, sizeof (SDL_Rect));
+        context->camera->x = i;
+        context->camera->y = j;
+        context->camera->w = SCREEN_WIDTH;
+        context->camera->h = SCREEN_HEIGHT;
         context->player = character_create();
         context->player->pos->x = i;
         context->player->pos->y = j;
@@ -39,31 +39,27 @@ static void parse_file(struct context *context, char *path)
   context->map->type = map;
 }
 
-static void apply_texture_init(struct context *context, SDL_Rect dst, int i,
-                               int j)
+int is_on_screen(struct context *context, int i, int j)
 {
-  switch (context->map->type[j * context->map->width + i])
-  {
-  case 0:
-    SDL_RenderCopy(context->renderer, context->backtex, NULL, &dst);
-    break;
-  case 1:
-    SDL_RenderCopy(context->renderer, context->groundtex, NULL, &dst);
-    break;
-  case 2:
-    SDL_RenderCopy(context->renderer, context->watertex, NULL, &dst);
-    break;
-  case 3:
-    SDL_RenderCopy(context->renderer, context->playertex, NULL, &dst);
-    context->map->type[j * context->map->width + i] = 0; 
-    break;
-  default:
-    break;
-  }
+  int infx = context->camera->x - SCREEN_WIDTH / 2;
+  int supx = context->camera->x + SCREEN_WIDTH / 2;
+  int infy = context->camera->y - SCREEN_HEIGHT / 2;
+  int supy = context->camera->y + SCREEN_HEIGHT / 2;
+  if (infx < 0)
+    infx = 0;
+  if (infy < 0)
+    infy = 0;
+  if (supx > context->map->width)
+    supx = context->map->width;
+  if (supy > context->map->height)
+    supy = context->map->height;
+  return i >= infx && i < supx && j >= infy && j < supy;
 }
 
 static void apply_texture(struct context *context, SDL_Rect dst, int i, int j)
 {
+  if (!is_on_screen(context, i, j))
+    return;
   switch (context->map->type[j * context->map->width + i])
   {
   case 0:
@@ -77,7 +73,7 @@ static void apply_texture(struct context *context, SDL_Rect dst, int i, int j)
     break;
   case 3:
     SDL_RenderCopy(context->renderer, context->playertex, NULL, &dst);
-    context->map->type[j * context->map->width + i] = context->player->previous_tile;
+    context->map->type[j * context->map->width + i] = 0;
     break;
   default:
     break;
@@ -124,7 +120,7 @@ void generate_map(struct context *context)
       {
         i * 32, j * 32, 32, 32
       };
-      apply_texture_init(context, dst, i, j); 
+      apply_texture(context, dst, i, j); 
     }
   }
 }
