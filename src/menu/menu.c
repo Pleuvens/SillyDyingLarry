@@ -72,6 +72,28 @@ void destroy_menu(SDL_Window *w, SDL_Renderer *r, struct button *b)
     SDL_DestroyWindow(w);
 }
 
+int onclick(SDL_Rect rp, SDL_Rect ro, SDL_Rect rq)
+{
+  int x = 0;
+  int y = 0;
+
+  SDL_GetMouseState(&x, &y);
+
+  if (x > rp.x && x < (rp.x + rp.w))
+  {
+    if (y >rp.y && y < (rp.y + rp.h))
+      return 0;
+
+    if (y >ro.y && y < (ro.y + ro.h))
+      return 1;
+
+    if (y >rq.y && y < (rq.y + rq.h))
+      return 2;
+  }
+
+  return -1;
+}
+
 
 int menu(int screen_w, int screen_h)
 {
@@ -120,6 +142,7 @@ int menu(int screen_w, int screen_h)
   SDL_RenderCopy(renderer, b->btexqf, NULL, &rectquit);
 
   int whichbutton = 0;
+  int click = -1;
 
   SDL_RenderPresent(renderer);
 
@@ -129,7 +152,10 @@ int menu(int screen_w, int screen_h)
 
     while (SDL_PollEvent(&e))
     {
-
+      if (e.type == SDL_MOUSEBUTTONDOWN)
+      {
+        click = onclick(rectplay, rectoptions, rectquit);
+      }
     }
 
     const Uint8 *keystates = SDL_GetKeyboardState(NULL);
@@ -139,20 +165,21 @@ int menu(int screen_w, int screen_h)
 
     Uint8 escape = keystates[SDL_SCANCODE_ESCAPE];
     Uint8 enter = keystates[SDL_SCANCODE_KP_ENTER];
+    Uint8 enter2 = keystates[SDL_SCANCODE_RETURN];
 
     if (escape)
       end = 1;
 
-    if (whichbutton == 2 && enter)
+    if ((whichbutton == 2 && (enter || enter2)) || click == 2)
       end = 1;
 
-    if (whichbutton == 1 && enter)
+    if ((whichbutton == 1 && (enter || enter2)) || click == 1)
     {
       opt = 1;
       end = 1;
     }
 
-    if (whichbutton == 0 && enter)
+    if ((whichbutton == 0 && (enter || enter2)) || click == 0)
     {
       play = 1;
       end = 1;
