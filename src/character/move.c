@@ -5,12 +5,31 @@
 #define MOVE_SIZE 1
 #define GRAVITY 1
 
+static void poor_larry(struct context *context, float d_x, float d_y)
+{
+  float x = context->player->pos->x + d_x;
+  float y = context->player->pos->y + d_y;
+
+  if (!context->enemies)
+    return;
+  for (int i = 0; i < context->nb_enemies; i++)
+  {
+    printf("ok\n");
+    struct character *enemy = context->enemies[i];
+    if (enemy->pos->x == x && enemy->pos->y == y)
+    {
+      context->player->state = DEAD;
+      return;
+    }
+  }
+}
+
 static void move_up(struct context *c, float x, float y)
 {
-  int test=test;
   if (y - MOVE_SIZE >= 0
       && c->map->type[(int)(y-MOVE_SIZE)*c->map->width+(int)x] == NONE)
     c->player->pos->y -= 2*MOVE_SIZE;
+  poor_larry(c, 0, 0);
 }
 
 static void move_right(struct context *c, float x, float y, float speed)
@@ -18,6 +37,7 @@ static void move_right(struct context *c, float x, float y, float speed)
   if (x + MOVE_SIZE < c->map->width
       && c->map->type[(int)y*c->map->width+(int)(x+MOVE_SIZE)] == NONE)
     c->player->pos->x += speed;
+  poor_larry(c, 0, 0);
 }
 
 static void move_left(struct context *c, float x, float y, float speed)
@@ -25,6 +45,7 @@ static void move_left(struct context *c, float x, float y, float speed)
   if (x - MOVE_SIZE >= 0
       && c->map->type[(int)y*c->map->width+(int)(x-MOVE_SIZE)] == NONE)
     c->player->pos->x -= speed;
+  poor_larry(c, 0, 0);
 }
 /*
 static void move_down(struct context *c, float x, float y)

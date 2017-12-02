@@ -37,7 +37,7 @@ static void parse_file(struct context *context, char *path)
         context->nb_enemies += 1;
         int ie = context->nb_enemies - 1;
         context->enemies = realloc(context->enemies,
-                           context->nb_enemies * sizeof (struct character));
+                           context->nb_enemies * sizeof (struct character *));
         context->enemies[ie] = character_create();
         context->enemies[ie]->pos->x = i;
         context->enemies[ie]->pos->y = j;
