@@ -6,6 +6,7 @@
 
 # define SCREEN_WIDTH 1152 // 1152 - 1280 - 1792 - 1920
 # define SCREEN_HEIGHT 960 // 960 - 1024 - 1136 - 1200
+# define MAX_JUMP 4
 
 # define SCREEN_BPP 32
 
@@ -58,6 +59,7 @@ struct context {
   SDL_Texture *watertex;
   SDL_Texture *playertex;
   SDL_Texture *enemytex;
+  SDL_Texture *endtex;
   struct character *player;
   SDL_Rect *camera;
   int nb_enemies;
