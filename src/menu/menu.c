@@ -113,6 +113,12 @@ int main(void)
       SDL_RenderCopy(renderer, buttqf, NULL, &rectquit);
     }
 
+    else if (wichbutton == 2)
+    {
+      SDL_RenderCopy(renderer, btexpf, NULL, &rectplay);
+      SDL_RenderCopy(renderer, btexof, NULL, &rectoptions);
+      SDL_RenderCopy(renderer, buttqo, NULL, &rectquit);
+    }
 
     SDL_RenderPresent(renderer);
 
