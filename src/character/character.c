@@ -7,6 +7,7 @@ struct character *character_create(void)
   if (!res)
     return NULL;
   res->pos = create_vect();
+  res->speed = 1;
   return res;
 }
 
