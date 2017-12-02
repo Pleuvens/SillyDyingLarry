@@ -33,10 +33,20 @@ void update(struct context *context)
   SDL_RenderPresent(context->renderer);
 
   //SDL_Delay(1000);
+  uint64_t time_now = 0;
+  uint64_t time_last = 0;
 
+  float frequency = SDL_GetPerformanceFrequency();
 
   while (1)
   {
+    time_last = time_now;
+    time_now = SDL_GetPerformanceCounter();
+
+    context->delta_time = (time_now - time_last) * 1000 / frequency;
+
+    printf("%f\n", context->delta_time);
+
     SDL_Event e;
 
     while (SDL_PollEvent(&e))

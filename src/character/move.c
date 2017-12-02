@@ -3,7 +3,7 @@
 #include "../vector/vector.h"
 
 #define MOVE_SIZE 1
-#define JUMP_FORCE 1
+#define JUMP_FORCE 80
 #define GRAVITY 1
 
 static void poor_larry(struct context *context, float d_x, float d_y)
@@ -29,7 +29,7 @@ static void move_up(struct context *c, float x, float y)
   poor_larry(c, 0, -JUMP_FORCE);
   if (y - JUMP_FORCE >= 0
       && c->map->type[(int)(y-JUMP_FORCE)*c->map->width+(int)x] == NONE)
-    c->player->pos->y -= JUMP_FORCE;
+    c->player->pos->y -= JUMP_FORCE / c->delta_time;
 }
 
 static void move_right(struct context *c, float x, float y, float speed)
@@ -54,7 +54,7 @@ int move_character(struct context *c, SDL_Event e)
   const Uint8 *keystates = SDL_GetKeyboardState(NULL);
   float y = c->player->pos->y;
   float x = c->player->pos->x;
-  float speed = c->player->speed;
+  float speed = c->player->speed * 20 / c->delta_time;
 
   Uint8 up = keystates[SDL_SCANCODE_UP];
   Uint8 left = keystates[SDL_SCANCODE_LEFT];
@@ -74,7 +74,7 @@ int move_character(struct context *c, SDL_Event e)
 
   if (y + GRAVITY < c->map->height
       && c->map->type[(int)(y+GRAVITY)*c->map->width + (int)x] == NONE)
-    c->player->pos->y += GRAVITY;
+    c->player->pos->y += GRAVITY / c->delta_time;
 
   poor_larry(c, -GRAVITY, 0);
   if (c->map->type[(int)(y+1)*c->map->width+(int)x] == HARMING_GROUND)

@@ -59,6 +59,7 @@ struct context {
   SDL_Rect *camera;
   int nb_enemies;
   struct character **enemies;
+  float delta_time;
 };
 
 struct menu {
