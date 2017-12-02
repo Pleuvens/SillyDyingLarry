@@ -34,8 +34,8 @@ static void parse_file(struct context *context, char *path)
       {
         map[j * width + i] = 0;
         context->camera = calloc(1, sizeof (SDL_Rect));
-        context->camera->x = i;
-        context->camera->y = j;
+        context->camera->x = i - SCREEN_BPP / 2;
+        context->camera->y = j - SCREEN_BPP / 2;
         context->camera->w = SCREEN_WIDTH;
         context->camera->h = SCREEN_HEIGHT;
         context->player = character_create();
@@ -179,7 +179,7 @@ void update_map(struct context *context)
     {
       SDL_Rect dst =
       {
-        i * 32 + context->camera->x, j * 32 + context->camera->y, 32, 32
+        (i + context->camera->x) * 32, (j + context->camera->y) * 32, 32, 32
       };
       apply_texture(context, dst, i + context->camera->x, j + context->camera->y); 
     }
