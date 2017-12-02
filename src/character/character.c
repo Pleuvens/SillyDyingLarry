@@ -8,6 +8,7 @@ struct character *character_create(void)
     return NULL;
   res->pos = create_vect();
   res->speed = 1;
+  res->state = ALIVE;
   res->previous_tile = 0;
   return res;
 }
