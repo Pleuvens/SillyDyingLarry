@@ -1,6 +1,8 @@
 #ifndef CHARACTER_H
 # define CHARACTER_H
 
+#include <SDL2/SDL.h>
+
 #define MAX_POSX 10
 #define MAX_POSY 10
 
