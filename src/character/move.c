@@ -14,7 +14,6 @@ static void poor_larry(struct context *context, float d_x, float d_y)
     return;
   for (int i = 0; i < context->nb_enemies; i++)
   {
-    printf("ok\n");
     struct character *enemy = context->enemies[i];
     if (enemy->pos->x == x && enemy->pos->y == y)
     {
@@ -26,26 +25,26 @@ static void poor_larry(struct context *context, float d_x, float d_y)
 
 static void move_up(struct context *c, float x, float y)
 {
+  poor_larry(c, 0, -1);
   if (y - MOVE_SIZE >= 0
       && c->map->type[(int)(y-MOVE_SIZE)*c->map->width+(int)x] == NONE)
     c->player->pos->y -= 2*MOVE_SIZE;
-  poor_larry(c, 0, 0);
 }
 
 static void move_right(struct context *c, float x, float y, float speed)
 {
+  poor_larry(c, 1, 0);
   if (x + MOVE_SIZE < c->map->width
       && c->map->type[(int)y*c->map->width+(int)(x+MOVE_SIZE)] == NONE)
     c->player->pos->x += speed;
-  poor_larry(c, 0, 0);
 }
 
 static void move_left(struct context *c, float x, float y, float speed)
 {
+  poor_larry(c, -1, 0);
   if (x - MOVE_SIZE >= 0
       && c->map->type[(int)y*c->map->width+(int)(x-MOVE_SIZE)] == NONE)
     c->player->pos->x -= speed;
-  poor_larry(c, 0, 0);
 }
 /*
 static void move_down(struct context *c, float x, float y)
@@ -93,6 +92,7 @@ int move_character(struct context *c, SDL_Event e)
       && c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE)
     c->player->pos->y += GRAVITY;
 
+  poor_larry(c, -1, 0);
   if (c->map->type[(int)(y+1)*c->map->width+(int)x] == HARMING_GROUND)
     c->player->state = DEAD;
   //printf("after: x = %f y = %f\n", c->player->pos->x, c->player->pos->y);
