@@ -55,8 +55,21 @@ void update(struct context *context)
 
     move_character(context, e);
 
+    //Game over
     if (context->player->state == DEAD)
     {
+      SDL_RenderClear(context->renderer);
+      generate_map(context);
+      SDL_RenderPresent(context->renderer);
+      context->player->state = ALIVE;
+      SDL_Delay(1000);
+      continue;
+    }
+
+    //You won
+    if (context->player->state == WON)
+    {
+      printf("You won!\n");
       SDL_RenderClear(context->renderer);
       generate_map(context);
       SDL_RenderPresent(context->renderer);
