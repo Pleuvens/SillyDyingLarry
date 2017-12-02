@@ -14,10 +14,12 @@ struct character
 {
   struct vector2 *pos;
   enum state state;
+  float speed;
 };
 
 enum type
 {
+  NONE = 0,
   GROUND = 1,
   HARMING_GROUND = 2
 };
