@@ -43,20 +43,20 @@ int main(void)
   SDL_Rect rectplay;
   rectplay.w = SCREEN_WIDTH / 13;
   rectplay.h = SCREEN_HEIGHT / 13;
-  rectplay.x = (SCREEN_WIDTH / 2) - (rect.w / 2);
+  rectplay.x = (SCREEN_WIDTH / 2) - (rectplay.w / 2);
   rectplay.y = SCREEN_HEIGHT / 2;
 
   SDL_Rect rectoptions;
-  rectplay.w = SCREEN_WIDTH / 13;
-  rectplay.h = SCREEN_HEIGHT / 13;
-  rectplay.x = (SCREEN_WIDTH / 2) - (rect.w / 2);
-  rectplay.y = SCREEN_HEIGHT / 2 - (rect.w * 2);
+  rectoptions.w = SCREEN_WIDTH / 13;
+  rectoptions.h = SCREEN_HEIGHT / 13;
+  rectoptions.x = (SCREEN_WIDTH / 2) - (rectoptions.w / 2);
+  rectoptions.y = SCREEN_HEIGHT / 2 - (rectoptions.w * 2);
 
   SDL_Rect rectquit;
-  rectplay.w = SCREEN_WIDTH / 13;
-  rectplay.h = SCREEN_HEIGHT / 13;
-  rectplay.x = (SCREEN_WIDTH / 2) - (rect.w / 2);
-  rectplay.y = SCREEN_HEIGHT / 2 - (rect.w * 4);
+  rectquit.w = SCREEN_WIDTH / 13;
+  rectquit.h = SCREEN_HEIGHT / 13;
+  rectquit.x = (SCREEN_WIDTH / 2) - (rectquit.w / 2);
+  rectquit.y = SCREEN_HEIGHT / 2 - (rectquit.w * 4);
 
   SDL_RenderCopy(renderer, backtex, NULL, NULL);
 
