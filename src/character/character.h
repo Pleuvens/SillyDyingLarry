@@ -13,6 +13,6 @@ void character_destroy(struct character *c);
 
 int character_move(struct character *c, struct vector2 new_pos);
 
-void move_character(struct context *c, SDL_Event e);
+int move_character(struct context *c, SDL_Event e);
 
 #endif /* !CHARACTER_H */
