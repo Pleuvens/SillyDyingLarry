@@ -1,6 +1,7 @@
 #include "../main/main.h"
 #include "map.h"
 #include "../vector/vector.h"
+#include "../character/character.h"
 
 static void parse_file(struct context *context, char *path)
 {
