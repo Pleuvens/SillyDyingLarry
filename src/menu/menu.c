@@ -5,11 +5,6 @@
 
 #include "../structures.h"
 
-// The main screen
-SDL_Window *screen = NULL;
-    
-SDL_Event event;
-
 int main(void)
 {
   int end = 0;
@@ -33,8 +28,28 @@ int main(void)
   SDL_Texture *backtex = SDL_CreateTextureFromSurface(renderer, background);
   SDL_Texture *buttex = SDL_CreateTextureFromSurface(renderer, button);
 
+  SDL_RenderClear(renderer);
+
+  SDL_RenderCopy(renderer, backtex, NULL, NULL);
+  SDL_RenderCopy(renderer, buttex, NULL, NULL);
+
+  SDL_RenderPresent(renderer);
+
   while (end == 0)
   {
+    SDL_Event e;
+
+    while (SDL_PollEvent(&e))
+    {
+      if (e.type == SDL_QUIT)
+      {
+        loop = 0;
+        break;
+      }
+    }
+
+    SDL_RenderClear(renderer);
+
     SDL_RenderCopy(renderer, backtex, NULL, NULL);
     SDL_RenderCopy(renderer, buttex, NULL, NULL);
 
