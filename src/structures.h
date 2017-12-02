@@ -49,6 +49,7 @@ struct context {
   SDL_Texture *enemytex;
   struct character *player;
   SDL_Rect *camera;
+  int nb_enemies;
   struct character **enemies;
 };
 

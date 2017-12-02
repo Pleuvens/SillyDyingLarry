@@ -14,6 +14,7 @@ static void parse_file(struct context *context, char *path)
   fscanf(f, "%d %d", &width, &height);
 
   int *map = calloc(width * height, sizeof (int));
+  context->nb_enemies = 0;
 
   for (int j = 0; j < height; ++j)
   {
@@ -30,6 +31,16 @@ static void parse_file(struct context *context, char *path)
         context->player = character_create();
         context->player->pos->x = i;
         context->player->pos->y = j;
+      }
+      if (map[j * width + i] == 4)
+      {
+        context->nb_enemies += 1;
+        int ie = context->nb_enemies - 1;
+        context->enemies = realloc(context->enemies,
+                           context->nb_enemies * sizeof (struct character));
+        context->enemies[ie] = character_create();
+        context->enemies[ie]->pos->x = i;
+        context->enemies[ie]->pos->y = j;
       }
     }
   }
@@ -135,6 +146,12 @@ void update_map(struct context *context)
   struct character *player = context->player;
 
   context->map->type[(int)player->pos->y * width + (int)player->pos->x] = 3;
+
+  for (int ie = 0; ie < context->nb_enemies; ++ie)
+  {
+    struct character *enemy = context->enemies[ie];
+    context->map->type[(int)enemy->pos->y * width + (int)enemy->pos->x] = 4;
+  }
 
   for (int i = 0; i < width; i++)
   {
