@@ -50,13 +50,13 @@ int main(void)
   rectplay.w = SCREEN_WIDTH / 13;
   rectplay.h = SCREEN_HEIGHT / 13;
   rectplay.x = (SCREEN_WIDTH / 2) - (rect.w / 2);
-  rectplay.y = SCREEN_HEIGHT / 2 - (rect.w * 4);
+  rectplay.y = SCREEN_HEIGHT / 2 - (rect.w * 2);
 
   SDL_Rect rectquit;
   rectplay.w = SCREEN_WIDTH / 13;
   rectplay.h = SCREEN_HEIGHT / 13;
   rectplay.x = (SCREEN_WIDTH / 2) - (rect.w / 2);
-  rectplay.y = SCREEN_HEIGHT / 2 - (rect.w * 2);
+  rectplay.y = SCREEN_HEIGHT / 2 - (rect.w * 4);
 
   SDL_RenderCopy(renderer, backtex, NULL, NULL);
 
@@ -105,6 +105,14 @@ int main(void)
       SDL_RenderCopy(renderer, btexof, NULL, &rectoptions);
       SDL_RenderCopy(renderer, buttqf, NULL, &rectquit);
     }
+
+    else if (wichbutton == 1)
+    {
+      SDL_RenderCopy(renderer, btexpf, NULL, &rectplay);
+      SDL_RenderCopy(renderer, btexoo, NULL, &rectoptions);
+      SDL_RenderCopy(renderer, buttqf, NULL, &rectquit);
+    }
+
 
     SDL_RenderPresent(renderer);
 
