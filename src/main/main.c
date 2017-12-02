@@ -19,7 +19,15 @@ void update(struct context *context)
   while (loop)
   {
     SDL_Event e;
-
+    
+    while (SDL_PollEvent(&e))                                                        
+    {                                                                                
+      if (e.type == SDL_QUIT)                                                        
+      {
+        loop = 0;                                                                    
+        break;
+      }
+    }
     loop = move_character(context, e);
 
     SDL_RenderClear(context->renderer);

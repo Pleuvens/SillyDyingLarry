@@ -2,6 +2,7 @@
 #include "map.h"
 #include "../vector/vector.h"
 #include "../character/character.h"
+#include "../camera/camera.h"
 
 static void parse_file(struct context *context, char *path)
 {
@@ -19,6 +20,17 @@ static void parse_file(struct context *context, char *path)
     for (int j = 0; j < height; ++j)
     {
       fscanf(f, "%d", map + i * height + j);
+      if (map[i * height + j] == 3)
+      {
+        SDL_Rect c =
+        {
+          i, j, SCREEN_WIDTH, SCREEN_HEIGHT
+        };
+        context->camera = &c;
+        context->player = character_create();
+        context->player->pos->x = i;
+        context->player->pos->y = j;
+      }
     }
   }
   context->map = calloc(1, sizeof (struct map));
@@ -43,10 +55,7 @@ static void apply_texture_init(struct context *context, SDL_Rect dst, int i,
     break;
   case 3:
     SDL_RenderCopy(context->renderer, context->playertex, NULL, &dst);
-    context->map->type[j * context->map->width + i] = 0;
-    context->player = character_create();
-    context->player->pos->x = i;
-    context->player->pos->y = j;
+    context->map->type[j * context->map->width + i] = 0; 
     break;
   default:
     break;
@@ -68,7 +77,7 @@ static void apply_texture(struct context *context, SDL_Rect dst, int i, int j)
     break;
   case 3:
     SDL_RenderCopy(context->renderer, context->playertex, NULL, &dst);
-    context->map->type[j * context->map->width + i] = 0;
+    context->map->type[j * context->map->width + i] = context->player->previous_tile;
     break;
   default:
     break;

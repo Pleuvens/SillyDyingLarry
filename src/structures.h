@@ -20,6 +20,7 @@ struct character
   struct vector2 *pos;
   enum state state;
   float speed;
+  int previous_tile;
 };
 
 enum type
@@ -46,6 +47,7 @@ struct context {
   SDL_Texture *playertex;
   SDL_Texture *enemytex;
   struct character *player;
+  SDL_Rect *camera;
   struct character **enemies;
 };
 
