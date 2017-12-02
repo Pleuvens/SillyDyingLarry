@@ -16,12 +16,19 @@ enum state
   DEAD
 };
 
+enum move
+{
+  LEFT = 0,
+  RIGHT
+};
+
 struct character
 {
   struct vector2 *pos;
   enum state state;
   float speed;
   int previous_tile;
+  enum move move;
 };
 
 enum type
