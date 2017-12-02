@@ -26,6 +26,8 @@ struct context {
   SDL_Texture *watertex;
   SDL_Texture *playertex;
   SDL_Texture *enemytex;
+  struct character *player;
+  struct character **enemies;
 };
 
 #endif /* !STRUCTURES_H */

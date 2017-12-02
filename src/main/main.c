@@ -6,7 +6,12 @@
 
 void update(struct context *context)
 {
-  /*
+  SDL_RenderClear(context->renderer);
+
+  generate_map(context);
+
+  SDL_RenderPresent(context->renderer);
+  
   while (1)
   {
     SDL_Event e;
@@ -15,18 +20,14 @@ void update(struct context *context)
       if (e.type == SDL_QUIT)
         break;
     }
+    SDL_RenderClear(context->renderer);
+
+    update_map(context);
+
+    SDL_RenderPresent(context->renderer);
   }
-  */
-
-  SDL_RenderClear(context->renderer);
-
-  generate_map(context);
-
-  SDL_RenderPresent(context->renderer);
 
   SDL_Delay(2000);
-
-  //SDL_DestroyTexture(test_tex);
 }
 
 int main(void)
