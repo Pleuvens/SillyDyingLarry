@@ -98,7 +98,13 @@ int main(void)
     SDL_RenderClear(renderer);
 
     SDL_RenderCopy(renderer, backtex, NULL, NULL);
-    SDL_RenderCopy(renderer, buttex, NULL, &rect);
+
+    if (wichbutton == 0)
+    {
+      SDL_RenderCopy(renderer, btexpo, NULL, &rectplay);
+      SDL_RenderCopy(renderer, btexof, NULL, &rectoptions);
+      SDL_RenderCopy(renderer, buttqf, NULL, &rectquit);
+    }
 
     SDL_RenderPresent(renderer);
 
