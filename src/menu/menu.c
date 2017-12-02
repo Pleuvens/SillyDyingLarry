@@ -8,6 +8,7 @@ int menu(int screen_w, int screen_h)
 {
   int end = 0;
   int opt = 0;
+  int play = 0;
 
   SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -20,14 +21,14 @@ int menu(int screen_w, int screen_h)
                                               | SDL_RENDERER_PRESENTVSYNC
                                               | SDL_RENDERER_TARGETTEXTURE);
 
-  SDL_Surface *background = IMG_Load("../../images/menu.png");
+  SDL_Surface *background = IMG_Load("images/menu.png");
 
-  SDL_Surface *buttonpo = IMG_Load("../../images/ButtonSelectOn.png");
-  SDL_Surface *buttonpf = IMG_Load("../../images/ButtonSelectOff.png");
-  SDL_Surface *buttonoo = IMG_Load("../../images/ButtonOptionsOn.png");
-  SDL_Surface *buttonof = IMG_Load("../../images/ButtonOptionsOff.png");
-  SDL_Surface *buttonqo = IMG_Load("../../images/ButtonQuitOn.png");
-  SDL_Surface *buttonqf = IMG_Load("../../images/ButtonQuitOff.png");
+  SDL_Surface *buttonpo = IMG_Load("images/ButtonSelectOn.png");
+  SDL_Surface *buttonpf = IMG_Load("images/ButtonSelectOff.png");
+  SDL_Surface *buttonoo = IMG_Load("images/ButtonOptionsOn.png");
+  SDL_Surface *buttonof = IMG_Load("images/ButtonOptionsOff.png");
+  SDL_Surface *buttonqo = IMG_Load("images/ButtonQuitOn.png");
+  SDL_Surface *buttonqf = IMG_Load("images/ButtonQuitOff.png");
 
   SDL_Texture *backtex = SDL_CreateTextureFromSurface(renderer, background);
 
@@ -104,6 +105,12 @@ int menu(int screen_w, int screen_h)
       end = 1;
     }
 
+    if (whichbutton == 0 && enter)
+    {
+      play = 1;
+      end = 1;
+    }
+
     if (up)
       whichbutton--;
 
@@ -152,17 +159,8 @@ int menu(int screen_w, int screen_h)
   if (opt == 1)
     return 1;
 
-  return 0;
-}
+  if (play == 1)
+    return 0;
 
-int main(void)
-{
-  int i = menu(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-  while (i != 0)
-  {
-    i = menu(1280, 1024);
-  }
-
-  return 0;
+  return -1;
 }

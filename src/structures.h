@@ -4,8 +4,8 @@
 # include <SDL2/SDL.h>
 # include <SDL2/SDL_image.h>
 
-# define SCREEN_WIDTH 1152 // 1152 - 1280
-# define SCREEN_HEIGHT 960 // 960 - 1024
+# define SCREEN_WIDTH 1152 // 1152 - 1280 - 1792 - 1920
+# define SCREEN_HEIGHT 960 // 960 - 1024 - 1136 - 1200
 
 # define SCREEN_BPP 32
 

@@ -6,7 +6,7 @@
 #include "../vector/vector.h"
 #include "../character/character.h"
 #include "../camera/camera.h"
-
+#include "../menu/menu.h"
 
 static int init(struct context *context)
 {
@@ -73,23 +73,37 @@ void update(struct context *context)
 
 int main(void)
 {
-  if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO
-               | SDL_INIT_EVENTS) != 0)
+  int status = menu(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+  printf("salut\n");
+
+  while (status != 0 && status != 1)
   {
-    SDL_Log("Failed to init SDL: %s\n", SDL_GetError());
-    return 1;
+    if (status == 1)
+      status = menu(1280, 1024);
   }
 
-  struct context *context = calloc(1, sizeof (struct context));
+  if (status == 0)
+  {
+    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO
+                 | SDL_INIT_EVENTS) != 0)
+    {
+      SDL_Log("Failed to init SDL: %s\n", SDL_GetError());
+      return 1;
+    }
 
-  if (init(context) == 1)
-    return 1;
+    struct context *context = calloc(1, sizeof (struct context));
 
-  update(context);
+    if (init(context) == 1)
+      return 1;
 
-  SDL_DestroyWindow(context->window);
-  SDL_DestroyRenderer(context->renderer);
+    update(context);
 
-  SDL_Quit();
+    SDL_DestroyWindow(context->window);
+    SDL_DestroyRenderer(context->renderer);
+
+    SDL_Quit();
+  }
+
   return 0;
 }
