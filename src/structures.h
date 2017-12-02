@@ -29,6 +29,7 @@ struct character
   float speed;
   int previous_tile;
   enum move move;
+  SDL_Rect rect;
 };
 
 enum type
