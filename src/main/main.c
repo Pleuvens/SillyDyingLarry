@@ -4,6 +4,7 @@
 #include "main.h"
 #include "../map/map.h"
 #include "../vector/vector.h"
+#include "../character/character.h"
 
 void update(struct context *context)
 {
@@ -24,7 +25,7 @@ void update(struct context *context)
       {
         printf("before: x = %f y = %f\n",
                context->player->pos->x, context->player->pos->y);
-        move_character(context->player, e);
+        move_character(context, e);
         printf("after: x = %f y = %f\n",
                context->player->pos->x, context->player->pos->y);
       }
