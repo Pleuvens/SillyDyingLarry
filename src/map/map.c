@@ -179,14 +179,14 @@ void update_map(struct context *context)
     {
       SDL_Rect dst =
       {
-        (i + context->camera->x) * 32, (j + context->camera->y) * 32, 32, 32
+        (i - context->camera->x) * 32, (j - context->camera->y) * 32, 32, 32
       };
-      apply_texture(context, dst, i + context->camera->x, j + context->camera->y); 
+      apply_texture(context, dst, i - context->camera->x / 32, j - context->camera->y / 32); 
     }
   }
   
-  player->rect.x = player->pos->x * SCREEN_BPP;
-  player->rect.y = player->pos->y * SCREEN_BPP;
+  player->rect.x = (player->pos->x - context->camera->x) * SCREEN_BPP;
+  player->rect.y = (player->pos->y - context->camera->y) * SCREEN_BPP;
   
   SDL_RenderCopy(context->renderer, context->playertex, NULL, &(player->rect));
 

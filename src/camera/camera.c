@@ -10,8 +10,8 @@ void set_camera(struct context *context)
     context->camera->x = 0;
   if (context->camera->y < 0)
     context->camera->y = 0;
-  if (context->camera->x > context->map->width - context->camera->w / (2 * SCREEN_BPP))
-    context->camera->x = context->map->width - context->camera->w / (2 * SCREEN_BPP);
-  if (context->camera->y > context->map->height - context->camera->h / (2 * SCREEN_BPP))
-    context->camera->y = context->map->height - context->camera->h / (2 * SCREEN_BPP);
+  if (context->camera->x > context->map->width * SCREEN_BPP- context->camera->w / 2)
+    context->camera->x = context->map->width * SCREEN_BPP- context->camera->w / 2;
+  if (context->camera->y > context->map->height * SCREEN_BPP- context->camera->h / 2)
+    context->camera->y = context->map->height * SCREEN_BPP- context->camera->h / 2;
 }
