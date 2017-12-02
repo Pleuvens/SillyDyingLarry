@@ -3,6 +3,7 @@
 
 #include "main.h"
 #include "../map/map.h"
+#include "../vector/vector.h"
 
 void update(struct context *context)
 {
@@ -21,9 +22,11 @@ void update(struct context *context)
         break;
       else if (e.type == SDL_KEYDOWN)
       {
-        printf("before: x = %f y = %f\n", context->pos->x, context->pos->y)
+        printf("before: x = %f y = %f\n",
+               context->player->pos->x, context->player->pos->y);
         move_character(context->player, e);
-        printf("after: x = %f y = %f\n", context->pos->x, context->pos->y)
+        printf("after: x = %f y = %f\n",
+               context->player->pos->x, context->player->pos->y);
       }
     }
     SDL_RenderClear(context->renderer);
