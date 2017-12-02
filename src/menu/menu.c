@@ -3,6 +3,7 @@
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
 
+#include "../structure.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 1152; //1152 - 1280

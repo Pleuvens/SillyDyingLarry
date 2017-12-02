@@ -4,6 +4,11 @@
 # include <SDL2/SDL.h>
 # include <SDL2/SDL_image.h>
 
+const int SCREEN_WIDTH = 1152; // 1152 - 1280
+const int SCREEN_HEIGHT = 960; // 960 - 1024
+const int SCREEN_HEIGHT = 32;
+
+
 enum state
 {
   ALIVE = 0,
