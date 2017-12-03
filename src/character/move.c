@@ -81,6 +81,10 @@ int move_character(struct context *c, SDL_Event e)
   float speed = c->player->speed * 20 / c->delta_time;
   
   cool_larry(c, 0, 0);
+  cool_larry(c, 0, 1);
+  cool_larry(c, 0, -1);
+  cool_larry(c, 1, 0);
+  cool_larry(c, -1, 0);
   if (c->map->type[(int)y*c->map->width+(int)x] == HARMING_GROUND
       && abs(x - (int)x) < 0.5)
     c->player->state = DEAD;
@@ -123,6 +127,11 @@ int move_character(struct context *c, SDL_Event e)
   else
     c->fall_speed = 1;
 
+  cool_larry(c, 0, 0);
+  cool_larry(c, 0, 1);
+  cool_larry(c, 0, -1);
+  cool_larry(c, 1, 0);
+  cool_larry(c, -1, 0);
   poor_larry(c, -MOVE_SIZE, 0);
   return 1;
 }
