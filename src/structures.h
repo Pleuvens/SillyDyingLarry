@@ -67,6 +67,7 @@ struct context {
   SDL_Texture *playertex;
   SDL_Texture *enemytex;
   SDL_Texture *endtex;
+  SDL_Texture *cloudtex;
   struct character *player;
   struct rect *camera;
   int nb_enemies;

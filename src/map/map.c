@@ -105,6 +105,9 @@ static void apply_texture(struct context *context, SDL_Rect dst, int i, int j)
   case 5:
     SDL_RenderCopy(context->renderer, context->endtex, NULL, &dst);
     break;
+  case 6:
+    SDL_RenderCopy(context->renderer, context->cloudtex, NULL, &dst);
+    break;
   default:
     break;
   }
@@ -118,6 +121,7 @@ static void load_textures(struct context *context)
   SDL_Surface *watersurf = IMG_Load("images/water.png");
   SDL_Surface *enemysurf = IMG_Load("images/enemy.png");
   SDL_Surface *endsurf = IMG_Load("images/end.png");
+  SDL_Surface *cloudsurf = IMG_Load("images/cloudsky.png");
   context->backtex = SDL_CreateTextureFromSurface(context->renderer,
                                                        backsurf);
   context->groundtex = SDL_CreateTextureFromSurface(context->renderer,
@@ -130,6 +134,8 @@ static void load_textures(struct context *context)
                                                       enemysurf);
   context->endtex = SDL_CreateTextureFromSurface(context->renderer,
                                                        endsurf);
+  context->cloudtex = SDL_CreateTextureFromSurface(context->renderer,
+                                                       cloudsurf);
  
   SDL_FreeSurface(backsurf);
   SDL_FreeSurface(groundsurf);
