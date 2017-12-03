@@ -68,6 +68,7 @@ static void parse_file(struct context *context, char *path)
   context->map->width = width;
   context->map->height = height;
   context->map->type = map;
+  fclose(f);
 }
 
 int is_on_screen(struct context *context, int i, int j)
