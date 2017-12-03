@@ -120,13 +120,13 @@ static void apply_texture(struct context *context, SDL_Rect dst, int i, int j)
 
 static void load_textures(struct context *context)
 {
-  SDL_Surface *backsurf = IMG_Load("images/background_tile.png");
-  SDL_Surface *groundsurf = IMG_Load("images/ground.png");
-  SDL_Surface *playersurf = IMG_Load("images/player.png");
-  SDL_Surface *watersurf = IMG_Load("images/water.png");
-  SDL_Surface *enemysurf = IMG_Load("images/enemy.png");
-  SDL_Surface *endsurf = IMG_Load("images/end.png");
-  SDL_Surface *cloudsurf = IMG_Load("images/cloudsky.png");
+  SDL_Surface *backsurf = IMG_Load("src/images/background_tile.png");
+  SDL_Surface *groundsurf = IMG_Load("src/images/ground.png");
+  SDL_Surface *playersurf = IMG_Load("src/images/player.png");
+  SDL_Surface *watersurf = IMG_Load("src/images/water.png");
+  SDL_Surface *enemysurf = IMG_Load("src/images/enemy.png");
+  SDL_Surface *endsurf = IMG_Load("src/images/end.png");
+  SDL_Surface *cloudsurf = IMG_Load("src/images/cloudsky.png");
   context->backtex = SDL_CreateTextureFromSurface(context->renderer,
                                                        backsurf);
   context->groundtex = SDL_CreateTextureFromSurface(context->renderer,
