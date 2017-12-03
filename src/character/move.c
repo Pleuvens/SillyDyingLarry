@@ -5,7 +5,7 @@
 #define MOVE_SIZE 1
 #define JUMP_FORCE 5
 #define GRAVITY 14
-#define MAX_FALL_SPEED 1
+#define MAX_FALL_SPEED 3
 
 void poor_larry(struct context *context, float d_x, float d_y)
 {
