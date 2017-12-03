@@ -114,15 +114,15 @@ int menu(int screen_w, int screen_h)
   // music
 
   Mix_Music *music = NULL;
-  //int playmusic = 1;
-  //int pausemusic = 0;
 
   Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
 
   music = Mix_LoadMUS("src/music/menumusic.mp3");
 
-  if (Mix_PlayingMusic() == 0)
-    Mix_PlayMusic(music, 0);
+  if (Mix_PlayingMusic() == 1)
+    Mix_HaltMusic();
+
+  Mix_PlayMusic(music, -1);
 
   // end of music
 

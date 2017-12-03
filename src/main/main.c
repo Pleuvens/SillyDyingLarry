@@ -56,7 +56,6 @@ void update(struct context *context, char *str, struct current_level *cl)
   generate_map(context, str);
   SDL_RenderPresent(context->renderer);
 
-  //SDL_Delay(1000);
   uint64_t time_now = 0;
   uint64_t time_last = 0;
 
@@ -96,7 +95,7 @@ void update(struct context *context, char *str, struct current_level *cl)
       SDL_RenderPresent(context->renderer);
       SDL_DestroyTexture(dt);
 
-      SDL_Delay(3000);
+      SDL_Delay(2500);
 
       if (cpt_death == 6)
         break;
@@ -105,19 +104,24 @@ void update(struct context *context, char *str, struct current_level *cl)
       generate_map(context, str);
       SDL_RenderPresent(context->renderer);
       context->player->state = ALIVE;
-      SDL_Delay(1000);
+      SDL_Delay(250);
       continue;
     }
 
     //You won
     if (context->player->state == WON)
     {
-      printf("You won!\n");
-      SDL_RenderClear(context->renderer);
-      generate_map(context, str);
-      SDL_RenderPresent(context->renderer);
       context->player->state = ALIVE;
-      SDL_Delay(1000);
+
+      SDL_RenderClear(context->renderer);
+
+      SDL_Surface *lp = IMG_Load("src/images/lvlpassed.png");
+      SDL_Texture *texp = SDL_CreateTextureFromSurface(context->renderer, lp);
+      SDL_RenderCopy(context->renderer, texp, NULL, NULL);
+
+      SDL_RenderPresent(context->renderer);
+      SDL_Delay(5000);
+
       cl->win = 1;
       break;
     }
@@ -174,6 +178,9 @@ int main(int argc, char *argv[])
   cl->lim = 2;
   cl->win = 0;
 
+  Mix_Music *music = NULL;
+  Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+
   int thislevel = 0;
 
   while (status != -1)
@@ -212,6 +219,11 @@ int main(int argc, char *argv[])
 
       if (thislevel == 1)
       {
+        music = Mix_LoadMUS("src/music/lvl1.mp3");
+        if (Mix_PlayingMusic() == 1)
+          Mix_HaltMusic();
+        Mix_PlayMusic(music, -1);
+        
         update(context, "src/maps/level1.map", cl);
         if (cl->win == 1)
         {
@@ -224,6 +236,11 @@ int main(int argc, char *argv[])
 
       if (thislevel == 2)
       {
+        music = Mix_LoadMUS("src/music/lvl2.mp3");
+        if (Mix_PlayingMusic() == 1)
+          Mix_HaltMusic();
+        Mix_PlayMusic(music, -1);
+
         update(context, "src/maps/level2.map", cl);
         if (cl->win == 1)
         {
@@ -236,6 +253,11 @@ int main(int argc, char *argv[])
 
       if (thislevel == 3)
       {
+        music = Mix_LoadMUS("src/music/lvl3.mp3");
+        if (Mix_PlayingMusic() == 1)
+          Mix_HaltMusic();
+        Mix_PlayMusic(music, -1);
+
         update(context, "src/maps/level3.map", cl);
         if (cl->win == 1)
         {
@@ -248,6 +270,11 @@ int main(int argc, char *argv[])
 
       if (thislevel == 4)
       {  
+        music = Mix_LoadMUS("src/music/lvl4.mp3");
+        if (Mix_PlayingMusic() == 1)
+          Mix_HaltMusic();
+        Mix_PlayMusic(music, -1);
+
         update(context, "src/maps/level4.map", cl);
         if (cl->win == 1)
         {
@@ -260,6 +287,11 @@ int main(int argc, char *argv[])
 
       if (thislevel == 5)
       {
+        music = Mix_LoadMUS("src/music/lvl5.mp3");
+        if (Mix_PlayingMusic() == 1)
+          Mix_HaltMusic();
+        Mix_PlayMusic(music, -1);
+
         update(context, "src/maps/level5.map", cl);
         if (cl->win == 1)
         {
