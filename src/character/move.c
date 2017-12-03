@@ -7,23 +7,24 @@
 #define GRAVITY 14
 #define MAX_FALL_SPEED 3
 
-void poor_larry(struct context *context, float d_x, float d_y)
+int poor_larry(struct context *context, float d_x, float d_y)
 {
   int x = context->player->pos->x + d_x;
   int y = context->player->pos->y + d_y;
 
   if (!context->enemies)
-    return;
+    return 0;
   for (int i = 0; i < context->nb_enemies; i++)
   {
     struct character *enemy = context->enemies[i];
-    if (enemy->pos->x <= x + 0.5 && enemy->pos->x >= x - 0.5
-        && enemy->pos->y<= y + 0.5 && enemy->pos->y>= y - 0.5)
+    if (abs(enemy->pos->x - x) < 0.5
+      && abs(enemy->pos->y - y) < 0.5)
     {
       context->player->state = DEAD;
-      return;
+      return 1;
     }
   }
+  return 0;
 }
 
 static void cool_larry(struct context *context, float d_x, float d_y)
@@ -38,6 +39,7 @@ static void cool_larry(struct context *context, float d_x, float d_y)
 static void move_up(struct context *c, float x, float y)
 {
   poor_larry(c, 0, -MOVE_SIZE);
+  cool_larry(c, 0, -MOVE_SIZE);
   if (c->player->state != ALIVE)
     return;
   if (c->player->jumpf
@@ -52,6 +54,7 @@ static void move_up(struct context *c, float x, float y)
 static void move_right(struct context *c, float x, float y, float speed)
 {
   poor_larry(c, MOVE_SIZE, 0);
+  cool_larry(c, MOVE_SIZE, 0);
   if (c->player->state != ALIVE)
     return;
  
@@ -63,6 +66,7 @@ static void move_right(struct context *c, float x, float y, float speed)
 static void move_left(struct context *c, float x, float y, float speed)
 {
   poor_larry(c, -MOVE_SIZE, 0);
+  cool_larry(c, -MOVE_SIZE, 0);
   if (c->player->state != ALIVE)
     return;
  
@@ -75,16 +79,15 @@ int move_character(struct context *c, SDL_Event e)
 {
 
   (void)e;
+  if (poor_larry(c, 0, 0))
+    return 1;
   const Uint8 *keystates = SDL_GetKeyboardState(NULL);
   float y = c->player->pos->y;
   float x = c->player->pos->x;
   float speed = c->player->speed * 20 / c->delta_time;
   
   cool_larry(c, 0, 0);
-  cool_larry(c, 0, 1);
-  cool_larry(c, 0, -1);
-  cool_larry(c, 1, 0);
-  cool_larry(c, -1, 0);
+  poor_larry(c, 0, 0);
   if (c->map->type[(int)roundf(y)*c->map->width+(int)roundf(x)] == HARMING_GROUND)
     c->player->state = DEAD;
 
@@ -124,17 +127,18 @@ int move_character(struct context *c, SDL_Event e)
     {
       c->player->pos->y += GRAVITY * c->fall_speed / c->delta_time;
       if (c->fall_speed < MAX_FALL_SPEED)
+      {
         c->fall_speed += MOVE_SIZE;
+        poor_larry(c, 0, MOVE_SIZE);
+        cool_larry(c, 0, MOVE_SIZE);
+      }
     }
   }
   else
     c->fall_speed = 1;
 
   cool_larry(c, 0, 0);
-  cool_larry(c, 0, 1);
-  cool_larry(c, 0, -1);
-  cool_larry(c, 1, 0);
-  cool_larry(c, -1, 0);
-  poor_larry(c, -MOVE_SIZE, 0);
+  poor_larry(c, 0, 0);
+  //poor_larry(c, -MOVE_SIZE, 0);
   return 1;
 }
