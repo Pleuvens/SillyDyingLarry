@@ -8,6 +8,7 @@
 #include "../camera/camera.h"
 #include "../menu/menu.h"
 #include "../level/level.h"
+#include "../cheat/cheat.h"
 
 SDL_Surface *deathd(int cpt)
 {
@@ -115,7 +116,7 @@ void update(struct context *context, char *str, struct current_level *cl)
 
       SDL_RenderClear(context->renderer);
 
-      SDL_Surface *lp = IMG_Load("src/images/lvlpassed.png");
+      SDL_Surface *lp = IMG_Load("src/images/lvlpassed2.png");
       SDL_Texture *texp = SDL_CreateTextureFromSurface(context->renderer, lp);
       SDL_RenderCopy(context->renderer, texp, NULL, NULL);
 
@@ -171,17 +172,18 @@ int main(int argc, char *argv[])
 
   struct current_level *cl = malloc(sizeof (struct current_level));
   cl->lvl1 = 1;
-  cl->lvl2 = 1;
+  cl->lvl2 = 0;
   cl->lvl3 = 0;
   cl->lvl4 = 0;
   cl->lvl5 = 0;
-  cl->lim = 2;
+  cl->lim = 1;
   cl->win = 0;
 
   Mix_Music *music = NULL;
   Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
 
   int thislevel = 0;
+  int cheat = 0;
 
   while (status != -1)
   {
@@ -192,6 +194,26 @@ int main(int argc, char *argv[])
     {
       thislevel = 0;
       status = menu(screen_width, screen_height);
+    }
+
+    if (status == 2)
+    {
+      thislevel = 0;
+      cheat = cheated(screen_width, screen_height);
+      if (cheat == 1)
+      {
+        cl->lvl1 = 1;
+        cl->lvl2 = 1;
+        cl->lvl3 = 1;
+        cl->lvl4 = 1;
+        cl->lvl5 = 1;
+        cl->lim = 5;
+      }
+      else if (cheat == 2)
+        conditionwin = 1;
+
+      cheat = 0;
+      status = 1;
     }
 
     if (status == 0)

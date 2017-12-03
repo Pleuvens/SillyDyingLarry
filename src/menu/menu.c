@@ -14,8 +14,8 @@ struct button *init_button(SDL_Renderer *renderer)
 
   SDL_Surface *buttonpo = IMG_Load("src/images/ButtonSelectOn.png");
   SDL_Surface *buttonpf = IMG_Load("src/images/ButtonSelectOff.png");
-  SDL_Surface *buttonoo = IMG_Load("src/images/ButtonOptionsOn.png");
-  SDL_Surface *buttonof = IMG_Load("src/images/ButtonOptionsOff.png");
+  SDL_Surface *buttonoo = IMG_Load("src/images/CheatButtono.png");
+  SDL_Surface *buttonof = IMG_Load("src/images/CheatButtonf.png");
   SDL_Surface *buttonqo = IMG_Load("src/images/ButtonQuitOn.png");
   SDL_Surface *buttonqf = IMG_Load("src/images/ButtonQuitOff.png");
 
@@ -229,7 +229,7 @@ int menu(int screen_w, int screen_h)
   destroy_menu(screen, renderer, b);
 
   if (opt == 1)
-    return 1;
+    return 2;
 
   if (play == 1)
     return 0;
