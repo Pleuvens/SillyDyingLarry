@@ -85,4 +85,32 @@ struct button {
   SDL_Texture *btexqf;
 };
 
+struct level {
+  SDL_Texture *backtex;
+  SDL_Texture *btex1l; 
+  SDL_Texture *btex2l;
+  SDL_Texture *btex3l;
+  SDL_Texture *btex4l;
+  SDL_Texture *btex5l;
+  SDL_Texture *btex1o; 
+  SDL_Texture *btex2o;
+  SDL_Texture *btex3o;
+  SDL_Texture *btex4o;
+  SDL_Texture *btex5o;
+  SDL_Texture *btex1f; 
+  SDL_Texture *btex2f;
+  SDL_Texture *btex3f;
+  SDL_Texture *btex4f;
+  SDL_Texture *btex5f;
+};
+
+struct current_level {
+  int lvl1;
+  int lvl2;
+  int lvl3;
+  int lvl4;
+  int lvl5;
+  int lim;
+};
+
 #endif /* !STRUCTURES_H */

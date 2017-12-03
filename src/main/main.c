@@ -7,6 +7,7 @@
 #include "../character/character.h"
 #include "../camera/camera.h"
 #include "../menu/menu.h"
+#include "../level/level.h"
 
 static int init(struct context *context)
 {
@@ -25,7 +26,7 @@ static int init(struct context *context)
   return 0;
 }
 
-void update(struct context *context)
+void update(struct context *context, char *str, struct current_level *cl)
 {
   SDL_RenderClear(context->renderer);
 
@@ -94,18 +95,37 @@ void update(struct context *context)
 
 int main(void)
 {
+  int screen_width = SCREEN_WIDTH;
+  int screen_height = SCREEN_HEIGHT;
   int status = menu(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-  printf("salut\n");
+  struct current_level *cl = malloc(sizeof (struct current_level));
+  cl->lvl1 = 1;
+  cl->lvl2 = 0;
+  cl->lvl3 = 0;
+  cl->lvl4 = 0;
+  cl->lvl5 = 0;
+  cl->lim = 1;
 
-  while (status != 0 && status != -1)
+  int thislevel = 0;
+
+  while (status != -1)
   {
-    printf("%d\n", status);
     if (status == 1)
       status = menu(1280, 1024);
+    if (status == 0)
+    {
+      thislevel = level_selection(screen_width, screen_height, cl);
+      if (thislevel != 0)
+        status = -1;
+      else
+        status = 0;
+    }
   }
 
-  if (status == 0)
+  printf("%d\n", thislevel);
+
+  if (thislevel != 0)
   {
     if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO
                  | SDL_INIT_EVENTS) != 0)
@@ -119,13 +139,16 @@ int main(void)
     if (init(context) == 1)
       return 1;
 
-    update(context);
+    if (thislevel == 1)
+      update(context, cl);
 
     SDL_DestroyWindow(context->window);
     SDL_DestroyRenderer(context->renderer);
 
     SDL_Quit();
   }
+
+  free(cl);
 
   return 0;
 }

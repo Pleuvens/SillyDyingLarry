@@ -145,10 +145,10 @@ static void load_textures(struct context *context)
   SDL_FreeSurface(endsurf);
 }
 
-void generate_map(struct context *context)
+void generate_map(struct context *context; char *str)
 {
   load_textures(context); 
-  parse_file(context, "maps/level1.map");
+  parse_file(context, str);
 
   int width = context->map->width;
   int height = context->map->height;
