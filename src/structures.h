@@ -73,6 +73,7 @@ struct context {
   int nb_enemies;
   struct character **enemies;
   float delta_time;
+  float fall_speed;
 };
 
 struct button {

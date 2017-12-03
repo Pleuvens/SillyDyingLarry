@@ -5,6 +5,7 @@
 #define MOVE_SIZE 1
 #define JUMP_FORCE 5
 #define GRAVITY 14
+#define MAX_FALL_SPEED 1
 
 static void poor_larry(struct context *context, float d_x, float d_y)
 {
@@ -35,12 +36,12 @@ static void cool_larry(struct context *context, float d_x, float d_y)
 
 static void move_up(struct context *c, float x, float y)
 {
-  poor_larry(c, 0, -1);
-  cool_larry(c, 0, -1);
+  poor_larry(c, 0, -MOVE_SIZE);
   if (c->player->state != ALIVE)
     return;
   if (c->player->jumpf
-      || c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE)
+      || c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE
+      || c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == HARMING_GROUND)
     return;
   if (y - JUMP_FORCE / c->delta_time >= 0
       && c->map->type[(int)(y-JUMP_FORCE)*c->map->width+(int)x] == NONE)
@@ -49,8 +50,7 @@ static void move_up(struct context *c, float x, float y)
 
 static void move_right(struct context *c, float x, float y, float speed)
 {
-  poor_larry(c, speed, 0);
-  cool_larry(c, speed, 0);
+  poor_larry(c, MOVE_SIZE, 0);
   if (c->player->state != ALIVE)
     return;
  
@@ -61,8 +61,7 @@ static void move_right(struct context *c, float x, float y, float speed)
 
 static void move_left(struct context *c, float x, float y, float speed)
 {
-  poor_larry(c, -speed, 0);
-  cool_larry(c, -speed, 0);
+  poor_larry(c, -MOVE_SIZE, 0);
   if (c->player->state != ALIVE)
     return;
  
@@ -73,11 +72,17 @@ static void move_left(struct context *c, float x, float y, float speed)
 
 int move_character(struct context *c, SDL_Event e)
 {
+
   (void)e;
   const Uint8 *keystates = SDL_GetKeyboardState(NULL);
   float y = c->player->pos->y;
   float x = c->player->pos->x;
   float speed = c->player->speed * 20 / c->delta_time;
+  
+  cool_larry(c, 0, 0);
+  if (c->map->type[(int)y*c->map->width+(int)x] == HARMING_GROUND
+      && abs(x - (int)x) < 0.5)
+    c->player->state = DEAD;
 
   Uint8 up = keystates[SDL_SCANCODE_UP];
   Uint8 left = keystates[SDL_SCANCODE_LEFT];
@@ -96,18 +101,27 @@ int move_character(struct context *c, SDL_Event e)
 
   if (c->player->jumpf)
   {
-    c->player->pos->y += -speed*2 + GRAVITY / c->delta_time;
+    c->player->pos->y += -speed*c->player->jumpf + GRAVITY /(c->player->jumpf * c->delta_time);
     c->player->jumpf -= MOVE_SIZE;
     if (c->player->jumpf < 0)
       c->player->jumpf = 0;
   }
   else if (y + MOVE_SIZE < c->map->height
-      && c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE)
-    c->player->pos->y += GRAVITY / c->delta_time;
+      && (c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE
+        || c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == HARMING_GROUND))
+  {
+    if (c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == GROUND)
+      c->fall_speed = 0;
+    else
+    {
+      c->player->pos->y += GRAVITY * c->fall_speed / c->delta_time;
+      if (c->fall_speed < MAX_FALL_SPEED)
+        c->fall_speed += MOVE_SIZE;
+    }
+  }
+  else
+    c->fall_speed = 1;
 
-  poor_larry(c, -GRAVITY, 0);
-  if (c->map->type[(int)(y+1)*c->map->width+(int)x] == HARMING_GROUND)
-    c->player->state = DEAD;
-
+  poor_larry(c, -MOVE_SIZE, 0);
   return 1;
 }
