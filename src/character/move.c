@@ -78,6 +78,8 @@ int move_character(struct context *c, SDL_Event e)
   const Uint8 *keystates = SDL_GetKeyboardState(NULL);
   float y = c->player->pos->y;
   float x = c->player->pos->x;
+  float dx = abs(c->player->pos->x - (int)x);
+  float dy = abs(c->player->pos->y - (int)y);
   float speed = c->player->speed * 20 / c->delta_time;
   
   cool_larry(c, 0, 0);
@@ -86,7 +88,7 @@ int move_character(struct context *c, SDL_Event e)
   cool_larry(c, 1, 0);
   cool_larry(c, -1, 0);
   if (c->map->type[(int)y*c->map->width+(int)x] == HARMING_GROUND
-      && abs(x - (int)x) < 0.5)
+      && dy < 0.5 && dx < 0.5)
     c->player->state = DEAD;
 
   Uint8 up = keystates[SDL_SCANCODE_UP];
@@ -103,6 +105,9 @@ int move_character(struct context *c, SDL_Event e)
 
   y = c->player->pos->y;
   x = c->player->pos->x;
+  dx = abs(c->player->pos->x - (int)x);
+  dy = abs(c->player->pos->y - (int)y);
+  
 
   if (c->player->jumpf)
   {
