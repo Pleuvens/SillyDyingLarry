@@ -3,7 +3,7 @@
 #include "../vector/vector.h"
 
 #define MOVE_SIZE 1
-#define JUMP_FORCE 4
+#define JUMP_FORCE 5
 #define GRAVITY 14
 
 static void poor_larry(struct context *context, float d_x, float d_y)
