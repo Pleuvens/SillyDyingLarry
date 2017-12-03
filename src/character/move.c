@@ -7,7 +7,7 @@
 #define GRAVITY 14
 #define MAX_FALL_SPEED 1
 
-static void poor_larry(struct context *context, float d_x, float d_y)
+void poor_larry(struct context *context, float d_x, float d_y)
 {
   int x = context->player->pos->x + d_x;
   int y = context->player->pos->y + d_y;
@@ -17,7 +17,8 @@ static void poor_larry(struct context *context, float d_x, float d_y)
   for (int i = 0; i < context->nb_enemies; i++)
   {
     struct character *enemy = context->enemies[i];
-    if ((int)enemy->pos->x == x && (int)enemy->pos->y == y)
+    if (enemy->pos->x <= x + 0.5 && enemy->pos->x >= x - 0.5
+        && enemy->pos->y<= y + 0.5 && enemy->pos->y>= y - 0.5)
     {
       context->player->state = DEAD;
       return;

@@ -7,6 +7,8 @@
 #define MAX_POSX 10
 #define MAX_POSY 10
 
+void poor_larry(struct context *context, float d_x, float d_y);
+
 struct character *character_create(void);
 
 void character_destroy(struct character *c);

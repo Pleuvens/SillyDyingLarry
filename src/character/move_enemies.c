@@ -72,6 +72,7 @@ static int move_enemy(struct context *c, struct character *enemy)
       }
     }
   }
+  poor_larry(c, 0,0);
   return 1;
 }
 
