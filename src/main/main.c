@@ -9,6 +9,7 @@
 #include "../menu/menu.h"
 #include "../level/level.h"
 #include "../cheat/cheat.h"
+#include "../credits/credits.h"
 
 SDL_Surface *deathd(int cpt)
 {
@@ -188,7 +189,11 @@ int main(int argc, char *argv[])
   while (status != -1)
   {
     if (conditionwin == 1)
-      return 1;
+    {
+      credits(screen_width, screen_height);
+      status = 1;
+      conditionwin = 0;
+    }
 
     if (status == 1)
     {
@@ -317,6 +322,8 @@ int main(int argc, char *argv[])
         update(context, "src/maps/level5.map", cl);
         if (cl->win == 1)
         {
+          cl->curr = 0;
+          cl->win = 0;
           conditionwin = 1;
         }
       }
