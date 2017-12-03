@@ -7,7 +7,17 @@
 #define THRESHOLD 0.85
 #define MIN_DISTANCE 7
 
-int floor_is_valid(struct context *c, float x, float y)
+static int is_over_ground(struct context *c, float x, float y)
+{
+  for (int i = 0; (y + i) < c->map->height; i++)
+  {
+    if (c->map->type[(int)(y+i)*c->map->width+(int)x] == GROUND)
+      return 0;
+  }
+  return 1;
+}
+
+static int floor_is_valid(struct context *c, float x, float y)
 {
   return c->map->type[(int)(y+1)*c->map->width+(int)x] != HARMING_GROUND;
 }
@@ -15,38 +25,51 @@ int floor_is_valid(struct context *c, float x, float y)
 static int move_enemy(struct context *c, struct character *enemy)
 {
   struct character *target = c->player;
+  float y = enemy->pos->y;
+  float x = enemy->pos->x;
 
-//  if (
-  if (abs(distance_vect(*(target->pos), *(enemy->pos))) < MIN_DISTANCE)
-  {
-    if (target->pos->x < enemy->pos->x
-      && floor_is_valid(c, enemy->pos->x-(MOVE_SIZE+THRESHOLD), enemy->pos->y))
-      enemy->pos->x -= MOVE_SIZE;
-    else if (target->pos->x > enemy->pos->x
-      && floor_is_valid(c, enemy->pos->x+(MOVE_SIZE+THRESHOLD), enemy->pos->y))
-      enemy->pos->x += MOVE_SIZE;
-
-
-    if (enemy->pos->y + MOVE_SIZE  + THRESHOLD < c->map->height
-        && c->map->type[(int)(enemy->pos->y + MOVE_SIZE + THRESHOLD)
-           * c->map->width + (int)enemy->pos->x] == NONE)
-      enemy->pos->y += GRAVITY;
-  }
-  else
+  if (c->map->type[(int)(y+1)*c->map->width+(int)x] != GROUND)
   {
     if (enemy->move == LEFT)
     {
-      if (floor_is_valid(c, enemy->pos->x-(MOVE_SIZE+THRESHOLD), enemy->pos->y))
+      if (is_over_ground(c, x-(MOVE_SIZE+THRESHOLD), y) == 0)
         enemy->pos->x -= MOVE_SIZE;
       else
         enemy->move = RIGHT;
     }
     else if (enemy->move == RIGHT)
     {
-      if (floor_is_valid(c, enemy->pos->x+(MOVE_SIZE+THRESHOLD), enemy->pos->y))
+      if (is_over_ground(c, x+(MOVE_SIZE+THRESHOLD), y) == 0)
         enemy->pos->x += MOVE_SIZE;
       else
         enemy->move = LEFT;
+    }
+  }
+  else
+  {
+    if (abs(distance_vect(*(target->pos), *(enemy->pos))) < MIN_DISTANCE)
+    {
+      if (target->pos->x < x && floor_is_valid(c, x-(MOVE_SIZE+THRESHOLD), y))
+        enemy->pos->x -= MOVE_SIZE;
+      else if (target->pos->x > x &&floor_is_valid(c,x+(MOVE_SIZE+THRESHOLD),y))
+        enemy->pos->x += MOVE_SIZE;
+    }
+    else
+    {
+      if (enemy->move == LEFT)
+      {
+        if (floor_is_valid(c, x-(MOVE_SIZE+THRESHOLD), y))
+          enemy->pos->x -= MOVE_SIZE;
+        else
+          enemy->move = RIGHT;
+      }
+      else if (enemy->move == RIGHT)
+      {
+        if (floor_is_valid(c, x+(MOVE_SIZE+THRESHOLD), y))
+          enemy->pos->x += MOVE_SIZE;
+        else
+          enemy->move = LEFT;
+      }
     }
   }
   return 1;
