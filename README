@@ -1,7 +1,67 @@
-This project is Silly Dying Larry. A very fun platformer made with SDL2 in C.
+  Hello player,
 
-map: 0 -> background
-     1 -> ground
-     2 -> water
-     3 -> player
-     4 -> enemy
+  This project is Silly Dying Larry's manual.
+  Silly Sying Larry (SDL) is a very fun platformer made with SDL2 developped in
+  C language.
+
+
+  *** Launching ***
+
+  In order to launch the game, type on your prompt:
+          42sh$ ./Silly-Dying-Larry
+
+
+
+  *** Menu ***
+
+  When launched, the program opens the menu window.
+  This window has three buttons: the first one to play, the second one to put
+  fullscreen mode and the third one to quit.
+  If the "play" button is selected, another menu is displayed, offering the
+  different existing levels.
+  In order to navigate through the menu, you can use your mouse or the arrows
+  and enter keys.
+
+  *** Movements ***
+
+  Larry can move in three different ways:
+    -> Go left (left arrow from keyboard)
+    -> Go right (right arrow from keyboard)
+    -> Jump (up arrow from keyboard)
+
+
+  *** Goal ***
+
+  The goal of this game is to get to the "Larry V" block without being caught by
+  one of the mean guys or getting wet.
+
+
+  *** Enemies ***
+
+  The enemies are represented by the red angry cubes. If an enemy touches Larry,
+  Larry dies.
+  Larry has two types of enemies:
+
+  -> Terrestrians:
+  This type of enemies can move from left to right and over the grass only.
+  If Larry is far, terrestrians will simply move from the left to the right side
+  of the grass.
+  Else, if Larry is close to terrestrians, they will follow Larry and try to
+  catch him.
+
+  -> Floaters:
+  Floating enemies simply move from left to right and over the grass area, but
+  thet float.
+
+
+  *** Water ***
+
+  Larry is a good lad, but Larry does not take showers. Don't step into the
+  water, otherwise Larry loses.
+
+
+
+  *** Clouds ***
+
+  Larry can walk over the clouds!!! You can use this in order to make your game
+  easier... Or harder.
