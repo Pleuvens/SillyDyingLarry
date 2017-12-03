@@ -46,9 +46,8 @@ static void parse_file(struct context *context, char *path)
         context->player->rect.w = SCREEN_BPP;
         context->player->rect.h = SCREEN_BPP;
       }
-      if (map[j * width + i] == 4)
+      if (map[j * width + i] == 4 || map[j * width + i] == 7)
       {
-        map[j * width + i] = 0;
         context->nb_enemies += 1;
         int ie = context->nb_enemies - 1;
         context->enemies = realloc(context->enemies,
@@ -60,6 +59,8 @@ static void parse_file(struct context *context, char *path)
         context->enemies[ie]->rect.y = j;
         context->enemies[ie]->rect.w = SCREEN_BPP;
         context->enemies[ie]->rect.h = SCREEN_BPP;
+        context->enemies[ie]->type = map[j * width + i];
+        map[j * width + i] = 0;
       }
     }
   }
@@ -103,10 +104,6 @@ static void apply_texture(struct context *context, SDL_Rect dst, int i, int j)
   case 2:
     SDL_RenderCopy(context->renderer, context->watertex, NULL, &dst);
     break;
-  case 4:
-    SDL_RenderCopy(context->renderer, context->enemytex, NULL, &dst);
-    context->map->type[j * context->map->width + i] = 0;
-    break;
   case 5:
     SDL_RenderCopy(context->renderer, context->endtex, NULL, &dst);
     break;
@@ -125,6 +122,7 @@ static void load_textures(struct context *context)
   SDL_Surface *playersurf = IMG_Load("src/images/player.png");
   SDL_Surface *watersurf = IMG_Load("src/images/water.png");
   SDL_Surface *enemysurf = IMG_Load("src/images/enemy.png");
+  SDL_Surface *enemyflysurf = IMG_Load("src/images/enemyfly.png");
   SDL_Surface *endsurf = IMG_Load("src/images/end.png");
   SDL_Surface *cloudsurf = IMG_Load("src/images/cloudsky.png");
   context->backtex = SDL_CreateTextureFromSurface(context->renderer,
@@ -137,6 +135,8 @@ static void load_textures(struct context *context)
                                                        watersurf);
   context->enemytex = SDL_CreateTextureFromSurface(context->renderer,
                                                       enemysurf);
+  context->enemyflytex = SDL_CreateTextureFromSurface(context->renderer,
+                                                      enemyflysurf);
   context->endtex = SDL_CreateTextureFromSurface(context->renderer,
                                                        endsurf);
   context->cloudtex = SDL_CreateTextureFromSurface(context->renderer,
@@ -147,6 +147,7 @@ static void load_textures(struct context *context)
   SDL_FreeSurface(playersurf);
   SDL_FreeSurface(watersurf);
   SDL_FreeSurface(enemysurf);
+  SDL_FreeSurface(enemyflysurf);
   SDL_FreeSurface(endsurf);
 }
 
@@ -197,13 +198,16 @@ void update_map(struct context *context)
     struct character *enemy = context->enemies[ie];
     enemy->rect.x = (enemy->pos->x - context->camera->x + offset) * SCREEN_BPP;
     enemy->rect.y = (enemy->pos->y - context->camera->y) * SCREEN_BPP;
-    //context->map->type[(int)enemy->pos->y * width + (int)enemy->pos->x] = 4;
-    SDL_RenderCopy(context->renderer, context->enemytex, NULL, &(enemy->rect));
+    if (enemy->type == 4)
+      SDL_RenderCopy(context->renderer, context->enemytex, NULL,
+                     &(enemy->rect));
+    else
+      SDL_RenderCopy(context->renderer, context->enemyflytex, NULL,
+                     &(enemy->rect));
   }
   
   player->rect.x = (player->pos->x - context->camera->x + offset) * SCREEN_BPP;
   player->rect.y = (player->pos->y - context->camera->y) * SCREEN_BPP;
  
   SDL_RenderCopy(context->renderer, context->playertex, NULL, &(player->rect));
-
 }

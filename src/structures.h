@@ -40,6 +40,7 @@ struct character
   enum move move;
   SDL_Rect rect;
   float jumpf;
+  int type;
 };
 
 enum type
@@ -66,6 +67,7 @@ struct context {
   SDL_Texture *watertex;
   SDL_Texture *playertex;
   SDL_Texture *enemytex;
+  SDL_Texture *enemyflytex;
   SDL_Texture *endtex;
   SDL_Texture *cloudtex;
   struct character *player;
