@@ -96,7 +96,7 @@ int move_character(struct context *c, SDL_Event e)
 
   if (c->player->jumpf)
   {
-    c->player->pos->y -= speed*2;
+    c->player->pos->y += -speed*2 + GRAVITY / c->delta_time;
     c->player->jumpf -= MOVE_SIZE;
     if (c->player->jumpf < 0)
       c->player->jumpf = 0;
