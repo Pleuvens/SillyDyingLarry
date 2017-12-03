@@ -186,20 +186,22 @@ void update_map(struct context *context)
       {
         (i - context->camera->x) * 32, (j - context->camera->y) * 32, 32, 32
       };
-      apply_texture(context, dst, i - context->camera->x / 32, j - context->camera->y / 32); 
+      apply_texture(context, dst, i - (context->camera->x) / 32, j - (context->camera->y) / 32); 
     }
   }
+
+  int offset = context->camera->x != 0;
 
   for (int ie = 0; ie < context->nb_enemies; ++ie)
   {
     struct character *enemy = context->enemies[ie];
-    enemy->rect.x = (enemy->pos->x - context->camera->x) * SCREEN_BPP;
+    enemy->rect.x = (enemy->pos->x - context->camera->x + offset) * SCREEN_BPP;
     enemy->rect.y = (enemy->pos->y - context->camera->y) * SCREEN_BPP;
     //context->map->type[(int)enemy->pos->y * width + (int)enemy->pos->x] = 4;
     SDL_RenderCopy(context->renderer, context->enemytex, NULL, &(enemy->rect));
   }
   
-  player->rect.x = (player->pos->x - context->camera->x) * SCREEN_BPP;
+  player->rect.x = (player->pos->x - context->camera->x + offset) * SCREEN_BPP;
   player->rect.y = (player->pos->y - context->camera->y) * SCREEN_BPP;
  
   SDL_RenderCopy(context->renderer, context->playertex, NULL, &(player->rect));
