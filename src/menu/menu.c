@@ -10,14 +10,14 @@ struct button *init_button(SDL_Renderer *renderer)
 {
   struct button *b = malloc(sizeof(struct button));
 
-  SDL_Surface *background = IMG_Load("images/menu.png");
+  SDL_Surface *background = IMG_Load("src/images/menu.png");
 
-  SDL_Surface *buttonpo = IMG_Load("images/ButtonSelectOn.png");
-  SDL_Surface *buttonpf = IMG_Load("images/ButtonSelectOff.png");
-  SDL_Surface *buttonoo = IMG_Load("images/ButtonOptionsOn.png");
-  SDL_Surface *buttonof = IMG_Load("images/ButtonOptionsOff.png");
-  SDL_Surface *buttonqo = IMG_Load("images/ButtonQuitOn.png");
-  SDL_Surface *buttonqf = IMG_Load("images/ButtonQuitOff.png");
+  SDL_Surface *buttonpo = IMG_Load("src/images/ButtonSelectOn.png");
+  SDL_Surface *buttonpf = IMG_Load("src/images/ButtonSelectOff.png");
+  SDL_Surface *buttonoo = IMG_Load("src/images/ButtonOptionsOn.png");
+  SDL_Surface *buttonof = IMG_Load("src/images/ButtonOptionsOff.png");
+  SDL_Surface *buttonqo = IMG_Load("src/images/ButtonQuitOn.png");
+  SDL_Surface *buttonqf = IMG_Load("src/images/ButtonQuitOff.png");
 
   b->backtex = SDL_CreateTextureFromSurface(renderer, background);
 
@@ -119,7 +119,7 @@ int menu(int screen_w, int screen_h)
 
   Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
 
-  music = Mix_LoadMUS("music/menumusic.mp3");
+  music = Mix_LoadMUS("src/music/menumusic.mp3");
 
   if (Mix_PlayingMusic() == 0)
     Mix_PlayMusic(music, 0);

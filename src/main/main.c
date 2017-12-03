@@ -11,22 +11,22 @@
 
 SDL_Surface *deathd(int cpt)
 {
-  SDL_Surface *death = IMG_Load("images/gameover1.png");
+  SDL_Surface *death = IMG_Load("src/images/gameover1.png");
 
   if (cpt == 2)
-    death = IMG_Load("images/gameover2.png");
+    death = IMG_Load("src/images/gameover2.png");
 
   if (cpt == 3)
-    death = IMG_Load("images/gameover3.png");
+    death = IMG_Load("src/images/gameover3.png");
 
   if (cpt == 4)
-    death = IMG_Load("images/gameover4.png");
+    death = IMG_Load("src/images/gameover4.png");
 
   if (cpt == 5)
-    death = IMG_Load("images/gameover5.png");
+    death = IMG_Load("src/images/gameover5.png");
 
   if (cpt == 6)
-    death = IMG_Load("images/gameover6.png");
+    death = IMG_Load("src/images/gameover6.png");
 
   return death;
 }
@@ -211,7 +211,7 @@ int main(int argc, char *argv[])
 
       if (thislevel == 1)
       {
-        update(context, "maps/level1.map", cl);
+        update(context, "src/maps/level1.map", cl);
         if (cl->win == 1)
         {
           cl->win = 0;
@@ -223,7 +223,7 @@ int main(int argc, char *argv[])
 
       if (thislevel == 2)
       {
-        update(context, "maps/level2.map", cl);
+        update(context, "src/maps/level2.map", cl);
         if (cl->win == 1)
         {
           cl->win = 0;
@@ -235,7 +235,7 @@ int main(int argc, char *argv[])
 
       if (thislevel == 3)
       {
-        update(context, "maps/level3.map", cl);
+        update(context, "src/maps/level3.map", cl);
         if (cl->win == 1)
         {
           cl->win = 0;
@@ -247,7 +247,7 @@ int main(int argc, char *argv[])
 
       if (thislevel == 4)
       {  
-        update(context, "maps/level4.map", cl);
+        update(context, "src/maps/level4.map", cl);
         if (cl->win == 1)
         {
           cl->win = 0;
@@ -259,7 +259,7 @@ int main(int argc, char *argv[])
 
       if (thislevel == 5)
       {
-        update(context, "maps/level5.map", cl);
+        update(context, "src/maps/level5.map", cl);
         if (cl->win == 1)
         {
           conditionwin = 1;

@@ -9,25 +9,25 @@ struct level *init_level(SDL_Renderer *renderer)
 {
   struct level *l = malloc(sizeof(struct level));
 
-  SDL_Surface *background = IMG_Load("images/menu.png");
+  SDL_Surface *background = IMG_Load("src/images/menu.png");
 
-  SDL_Surface *button1l = IMG_Load("images/Level1lock.png");
-  SDL_Surface *button2l = IMG_Load("images/Level2lock.png");
-  SDL_Surface *button3l = IMG_Load("images/Level3lock.png");
-  SDL_Surface *button4l = IMG_Load("images/Level4lock.png");
-  SDL_Surface *button5l = IMG_Load("images/Level5lock.png");
+  SDL_Surface *button1l = IMG_Load("src/images/Level1lock.png");
+  SDL_Surface *button2l = IMG_Load("src/images/Level2lock.png");
+  SDL_Surface *button3l = IMG_Load("src/images/Level3lock.png");
+  SDL_Surface *button4l = IMG_Load("src/images/Level4lock.png");
+  SDL_Surface *button5l = IMG_Load("src/images/Level5lock.png");
 
-  SDL_Surface *button1o = IMG_Load("images/Level1On.png");
-  SDL_Surface *button2o = IMG_Load("images/Level2On.png");
-  SDL_Surface *button3o = IMG_Load("images/Level3On.png");
-  SDL_Surface *button4o = IMG_Load("images/Level4On.png");
-  SDL_Surface *button5o = IMG_Load("images/Level5On.png");
+  SDL_Surface *button1o = IMG_Load("src/images/Level1On.png");
+  SDL_Surface *button2o = IMG_Load("src/images/Level2On.png");
+  SDL_Surface *button3o = IMG_Load("src/images/Level3On.png");
+  SDL_Surface *button4o = IMG_Load("src/images/Level4On.png");
+  SDL_Surface *button5o = IMG_Load("src/images/Level5On.png");
 
-  SDL_Surface *button1f = IMG_Load("images/Level1Off.png");
-  SDL_Surface *button2f = IMG_Load("images/Level2Off.png");
-  SDL_Surface *button3f = IMG_Load("images/Level3Off.png");
-  SDL_Surface *button4f = IMG_Load("images/Level4Off.png");
-  SDL_Surface *button5f = IMG_Load("images/Level5Off.png");
+  SDL_Surface *button1f = IMG_Load("src/images/Level1Off.png");
+  SDL_Surface *button2f = IMG_Load("src/images/Level2Off.png");
+  SDL_Surface *button3f = IMG_Load("src/images/Level3Off.png");
+  SDL_Surface *button4f = IMG_Load("src/images/Level4Off.png");
+  SDL_Surface *button5f = IMG_Load("src/images/Level5Off.png");
 
   l->backtex = SDL_CreateTextureFromSurface(renderer, background);
 
@@ -169,7 +169,7 @@ int level_selection(int screen_w, int screen_h, struct current_level *cl)
 
   Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
 
-  music = Mix_LoadMUS("music/menumusic.mp3");
+  music = Mix_LoadMUS("rcusic/menumusic.mp3");
 
   if (Mix_PlayingMusic() == 0)
     Mix_PlayMusic(music, 0);
