@@ -16,6 +16,7 @@ static int move_enemy(struct context *c, struct character *enemy)
 {
   struct character *target = c->player;
 
+//  if (
   if (abs(distance_vect(*(target->pos), *(enemy->pos))) < MIN_DISTANCE)
   {
     if (target->pos->x < enemy->pos->x
