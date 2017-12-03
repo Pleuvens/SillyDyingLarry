@@ -7,10 +7,17 @@
 
   *** Launching ***
 
+  First compile the game with (you need to be at the root of the project):
+          42sh$ make
   In order to launch the game, type on your prompt:
           42sh$ ./Silly-Dying-Larry
 
-
+  *** Keys ***
+  
+  Escape -> go back to previous window / quit the game
+  Left Arrow -> move to the left
+  Right Arrow -> move to the right
+  Up Arrow -> Jump
 
   *** Menu ***
 
