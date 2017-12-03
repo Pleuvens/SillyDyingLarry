@@ -256,7 +256,8 @@ int main(int argc, char *argv[])
         {
           cl->win = 0;
           cl->lvl2 = 1;
-          cl->lim = 2;
+          if (cl->lim < 2)
+            cl->lim = 2;
           cl->curr = 0;
         }
       }
@@ -273,7 +274,8 @@ int main(int argc, char *argv[])
         {
           cl->win = 0;
           cl->lvl3 = 1;
-          cl->lim = 3;
+          if (cl->lim < 3)
+            cl->lim = 3;
           cl->curr = 0;
         }
       }
@@ -290,7 +292,8 @@ int main(int argc, char *argv[])
         {
           cl->win = 0;
           cl->lvl4 = 1;
-          cl->lim = 4;
+          if (cl->lim < 4)
+            cl->lim = 4;
           cl->curr = 0;
         }
       }
