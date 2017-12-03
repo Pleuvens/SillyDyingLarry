@@ -31,7 +31,7 @@ static void cool_larry(struct context *context, float d_x, float d_y)
   int x = context->player->pos->x + d_x;
   int y = context->player->pos->y + d_y;
 
-  if (context->map->type[(int)(y+1)*context->map->width+(int)x] == END)
+  if (context->map->type[(int)roundf(y+1)*context->map->width+(int)roundf(x)] == END)
     context->player->state = WON;
 }
 
@@ -41,11 +41,11 @@ static void move_up(struct context *c, float x, float y)
   if (c->player->state != ALIVE)
     return;
   if (c->player->jumpf
-      || c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE
-      || c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == HARMING_GROUND)
+      || c->map->type[(int)roundf(y+MOVE_SIZE)*c->map->width + (int)roundf(x)] == NONE
+      || c->map->type[(int)roundf(y+MOVE_SIZE)*c->map->width + (int)roundf(x)] == HARMING_GROUND)
     return;
   if (y - JUMP_FORCE / c->delta_time >= 0
-      && c->map->type[(int)(y-JUMP_FORCE)*c->map->width+(int)x] == NONE)
+      && c->map->type[(int)roundf(y-JUMP_FORCE)*c->map->width+(int)roundf(x)] == NONE)
     c->player->jumpf = JUMP_FORCE;
 }
 
@@ -56,7 +56,7 @@ static void move_right(struct context *c, float x, float y, float speed)
     return;
  
   if (x + speed < c->map->width
-      && c->map->type[(int)y*c->map->width+(int)(x+speed)] == NONE)
+      && c->map->type[(int)roundf(y)*c->map->width+(int)roundf(x+speed)] == NONE)
     c->player->pos->x += speed;
 }
 
@@ -67,7 +67,7 @@ static void move_left(struct context *c, float x, float y, float speed)
     return;
  
   if (x - speed >= 0
-      && c->map->type[(int)y*c->map->width+(int)(x-speed)] == NONE)
+      && c->map->type[(int)roundf(y)*c->map->width+(int)roundf(x-speed)] == NONE)
     c->player->pos->x -= speed;
 }
 
@@ -114,11 +114,11 @@ int move_character(struct context *c, SDL_Event e)
     if (c->player->jumpf < 0)
       c->player->jumpf = 0;
   }
-  else if (y + MOVE_SIZE < c->map->height
-      && (c->map->type[(int)roundf(y+MOVE_SIZE)*c->map->width + (int)roundf(x)] == NONE
-        || c->map->type[(int)roundf(y+MOVE_SIZE)*c->map->width + (int)roundf(x)] == HARMING_GROUND))
+  else if (y + GRAVITY * c->fall_speed / c->delta_time < c->map->height
+      && (c->map->type[(int)roundf(y+GRAVITY * c->fall_speed / c->delta_time)*c->map->width + (int)roundf(x)] == NONE
+        || c->map->type[(int)roundf(y+GRAVITY * c->fall_speed / c->delta_time)*c->map->width + (int)roundf(x)] == HARMING_GROUND))
   {
-    if (c->map->type[(int)roundf(y+MOVE_SIZE)*c->map->width + (int)roundf(x)] == GROUND)
+    if (c->map->type[(int)roundf(y+GRAVITY * c->fall_speed / c->delta_time)*c->map->width + (int)roundf(x)] == GROUND)
       c->fall_speed = 0;
     else
     {
