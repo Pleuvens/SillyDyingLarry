@@ -5,7 +5,7 @@
 #define MOVE_SIZE 0.15
 #define GRAVITY 1
 #define THRESHOLD 0.85
-#define MIN_DISTANCE 7
+#define MIN_DISTANCE 5
 
 static int is_over_ground(struct context *c, float x, float y)
 {
@@ -30,19 +30,33 @@ static int move_enemy(struct context *c, struct character *enemy)
 
   if (c->map->type[(int)(y+1)*c->map->width+(int)x] != GROUND)
   {
-    if (enemy->move == LEFT)
+    if (abs(distance_vect(*(target->pos), *(enemy->pos))) < MIN_DISTANCE)
     {
-      if (is_over_ground(c, x-(MOVE_SIZE+THRESHOLD), y) == 0)
+      if (target->pos->x < x)
         enemy->pos->x -= MOVE_SIZE;
-      else
-        enemy->move = RIGHT;
-    }
-    else if (enemy->move == RIGHT)
-    {
-      if (is_over_ground(c, x+(MOVE_SIZE+THRESHOLD), y) == 0)
+      else if (target->pos->x > x)
         enemy->pos->x += MOVE_SIZE;
-      else
-        enemy->move = LEFT;
+      if (target->pos->y < y)
+        enemy->pos->y -= MOVE_SIZE;
+      else if (target->pos->y > y)
+        enemy->pos->y += MOVE_SIZE;
+    }
+    else
+    {
+      if (enemy->move == LEFT)
+      {
+        if (is_over_ground(c, x-(MOVE_SIZE+THRESHOLD), y) == 0)
+          enemy->pos->x -= MOVE_SIZE;
+        else
+          enemy->move = RIGHT;
+      }
+      else if (enemy->move == RIGHT)
+      {
+        if (is_over_ground(c, x+(MOVE_SIZE+THRESHOLD), y) == 0)
+          enemy->pos->x += MOVE_SIZE;
+        else
+          enemy->move = LEFT;
+      }
     }
   }
   else
