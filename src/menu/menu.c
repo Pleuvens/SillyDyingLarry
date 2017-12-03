@@ -94,7 +94,6 @@ int onclick(SDL_Rect rp, SDL_Rect ro, SDL_Rect rq)
   return -1;
 }
 
-
 int menu(int screen_w, int screen_h)
 {
   int end = 0;
