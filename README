@@ -12,6 +12,8 @@
   In order to launch the game, type on your prompt:
           42sh$ ./Silly-Dying-Larry
 
+  You can add in parameters the size of the screen you want to have.
+
   *** Keys ***
   
   Escape -> go back to previous window / quit the game
@@ -36,6 +38,9 @@
     -> Go right (right arrow from keyboard)
     -> Jump (up arrow from keyboard)
 
+  *** Debug ***
+
+  If any freeze occurs, you can press 'Y' to reload the stage.
 
   *** Goal ***
 

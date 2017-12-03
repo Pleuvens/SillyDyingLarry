@@ -95,6 +95,7 @@ int move_character(struct context *c, SDL_Event e)
   Uint8 left = keystates[SDL_SCANCODE_LEFT];
   Uint8 quit = keystates[SDL_SCANCODE_ESCAPE];
   Uint8 right = keystates[SDL_SCANCODE_RIGHT];
+  Uint8 error = keystates[SDL_SCANCODE_Y];
 
   /* Key logic goes here. */
   if (up)
@@ -105,6 +106,8 @@ int move_character(struct context *c, SDL_Event e)
     move_left(c, x, y, speed);
   if (quit)
     return -1;
+  if(error)
+    return -2;
 
   y = c->player->pos->y;
   x = c->player->pos->x;

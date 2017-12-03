@@ -64,6 +64,7 @@ void update(struct context *context, char *str, struct current_level *cl)
   float frequency = SDL_GetPerformanceFrequency();
 
   int cpt_death = 0;
+  int error = 0;
 
   while (1)
   {
@@ -80,8 +81,19 @@ void update(struct context *context, char *str, struct current_level *cl)
         return;
     }
 
-    if (move_character(context, e) == -1)
+    error = move_character(context, e);
+
+    if (error == -1)
       break;
+
+    if (error == -2)
+    {
+      SDL_RenderClear(context->renderer);
+
+      generate_map(context, str);
+      SDL_RenderPresent(context->renderer);
+      continue;
+    }
 
     //Game over
     if (context->player->state == DEAD)
