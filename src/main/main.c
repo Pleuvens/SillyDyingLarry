@@ -30,7 +30,7 @@ void update(struct context *context, char *str, struct current_level *cl)
 {
   SDL_RenderClear(context->renderer);
 
-  generate_map(context);
+  generate_map(context, str);
   SDL_RenderPresent(context->renderer);
 
   //SDL_Delay(1000);
@@ -60,7 +60,7 @@ void update(struct context *context, char *str, struct current_level *cl)
     if (context->player->state == DEAD)
     {
       SDL_RenderClear(context->renderer);
-      generate_map(context);
+      generate_map(context, str);
       SDL_RenderPresent(context->renderer);
       context->player->state = ALIVE;
       SDL_Delay(1000);
@@ -72,10 +72,11 @@ void update(struct context *context, char *str, struct current_level *cl)
     {
       printf("You won!\n");
       SDL_RenderClear(context->renderer);
-      generate_map(context);
+      generate_map(context, str);
       SDL_RenderPresent(context->renderer);
       context->player->state = ALIVE;
       SDL_Delay(1000);
+      cl->win = 1;
       continue;
     }
 
@@ -101,25 +102,26 @@ int main(void)
 
   struct current_level *cl = malloc(sizeof (struct current_level));
   cl->lvl1 = 1;
-  cl->lvl2 = 0;
-  cl->lvl3 = 0;
-  cl->lvl4 = 0;
+  cl->lvl2 = 1;
+  cl->lvl3 = 1;
+  cl->lvl4 = 1;
   cl->lvl5 = 0;
-  cl->lim = 1;
+  cl->lim = 4;
+  cl->win = 0;
 
   int thislevel = 0;
 
   while (status != -1)
   {
     if (status == 1)
-      status = menu(1280, 1024);
+      status = menu(screen_width, screen_height);
     if (status == 0)
     {
       thislevel = level_selection(screen_width, screen_height, cl);
       if (thislevel != 0)
         status = -1;
       else
-        status = 0;
+        status = 1;
     }
   }
 
@@ -140,7 +142,16 @@ int main(void)
       return 1;
 
     if (thislevel == 1)
-      update(context, cl);
+      update(context, "maps/level1.map", cl);
+
+    if (thislevel == 2)
+      update(context, "maps/level2.map", cl);
+
+    if (thislevel == 3)
+      update(context, "maps/level3.map", cl);
+
+    if (thislevel == 4)
+      update(context, "maps/level4.map", cl);
 
     SDL_DestroyWindow(context->window);
     SDL_DestroyRenderer(context->renderer);

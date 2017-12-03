@@ -111,6 +111,7 @@ struct current_level {
   int lvl4;
   int lvl5;
   int lim;
+  int win;
 };
 
 #endif /* !STRUCTURES_H */

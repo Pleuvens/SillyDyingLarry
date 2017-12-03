@@ -329,7 +329,7 @@ int level_selection(int screen_w, int screen_h, struct current_level *cl)
       SDL_RenderCopy(renderer, l->btex1o, NULL, &rect1);
 
     else if (whichbutton == 2)
-      SDL_RenderCopy(renderer, l->btex2o, NULL, &rect1);
+      SDL_RenderCopy(renderer, l->btex2o, NULL, &rect2);
 
     else if (whichbutton == 3)
       SDL_RenderCopy(renderer, l->btex3o, NULL, &rect3);

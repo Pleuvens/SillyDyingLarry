@@ -6,7 +6,7 @@
 
 # include "../structures.h"
 
-void generate_map(struct context *context);
+void generate_map(struct context *context, char *str);
 
 void update_map(struct context *context);
 
