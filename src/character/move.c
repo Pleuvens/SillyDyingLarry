@@ -78,8 +78,6 @@ int move_character(struct context *c, SDL_Event e)
   const Uint8 *keystates = SDL_GetKeyboardState(NULL);
   float y = c->player->pos->y;
   float x = c->player->pos->x;
-  float dx = abs(c->player->pos->x - (int)x);
-  float dy = abs(c->player->pos->y - (int)y);
   float speed = c->player->speed * 20 / c->delta_time;
   
   cool_larry(c, 0, 0);
@@ -87,12 +85,12 @@ int move_character(struct context *c, SDL_Event e)
   cool_larry(c, 0, -1);
   cool_larry(c, 1, 0);
   cool_larry(c, -1, 0);
-  if (c->map->type[(int)y*c->map->width+(int)x] == HARMING_GROUND
-      && dy < 0.5 && dx < 0.5)
+  if (c->map->type[(int)roundf(y)*c->map->width+(int)roundf(x)] == HARMING_GROUND)
     c->player->state = DEAD;
 
   Uint8 up = keystates[SDL_SCANCODE_UP];
   Uint8 left = keystates[SDL_SCANCODE_LEFT];
+  Uint8 quit = keystates[SDL_SCANCODE_ESCAPE];
   Uint8 right = keystates[SDL_SCANCODE_RIGHT];
 
   /* Key logic goes here. */
@@ -102,11 +100,11 @@ int move_character(struct context *c, SDL_Event e)
     move_right(c, x, y, speed);
   if (left)
     move_left(c, x, y, speed);
+  if (quit)
+    return -1;
 
   y = c->player->pos->y;
   x = c->player->pos->x;
-  dx = abs(c->player->pos->x - (int)x);
-  dy = abs(c->player->pos->y - (int)y);
   
 
   if (c->player->jumpf)
@@ -117,10 +115,10 @@ int move_character(struct context *c, SDL_Event e)
       c->player->jumpf = 0;
   }
   else if (y + MOVE_SIZE < c->map->height
-      && (c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == NONE
-        || c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == HARMING_GROUND))
+      && (c->map->type[(int)roundf(y+MOVE_SIZE)*c->map->width + (int)roundf(x)] == NONE
+        || c->map->type[(int)roundf(y+MOVE_SIZE)*c->map->width + (int)roundf(x)] == HARMING_GROUND))
   {
-    if (c->map->type[(int)(y+MOVE_SIZE)*c->map->width + (int)x] == GROUND)
+    if (c->map->type[(int)roundf(y+MOVE_SIZE)*c->map->width + (int)roundf(x)] == GROUND)
       c->fall_speed = 0;
     else
     {

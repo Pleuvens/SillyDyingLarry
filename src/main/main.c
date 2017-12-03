@@ -79,7 +79,8 @@ void update(struct context *context, char *str, struct current_level *cl)
         return;
     }
 
-    move_character(context, e);
+    if (move_character(context, e) == -1)
+      break;
 
     //Game over
     if (context->player->state == DEAD)
