@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
   int screen_width = SCREEN_WIDTH;
   int screen_height = SCREEN_HEIGHT;
 
-  if (argc > 1 && argc < 4)
+  if (argc == 3)
   {
     screen_width = atoi(argv[1]);
     screen_height = atoi(argv[2]);

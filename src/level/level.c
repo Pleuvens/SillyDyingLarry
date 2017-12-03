@@ -79,7 +79,7 @@ SDL_Rect init_rectl(int w, int h, int cpt)
   rect.w = w / 5;
   rect.h = h / 12;
   rect.x = (w / 2) - (rect.w / 2);
-  rect.y = h / 2 - (h / 4)  + (rect.h * cpt);
+  rect.y = h / 2 - (h / 4) + (h / 8) - (h / 16) + (rect.h * cpt) / 1.3;
 
   return rect;
 }
