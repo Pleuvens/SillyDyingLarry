@@ -14,10 +14,13 @@
   -> Camera
   -> README
   -> Jump
-
-  *** Next time ***
   -> Level handler
   -> Aesthetics
   -> Death screen
+  -> Flying enemies
+
+  *** Next time ***
+  -> Save progression
   -> Sound effects
   -> Acceleration
+  -> Finish level design
