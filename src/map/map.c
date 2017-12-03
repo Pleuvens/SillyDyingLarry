@@ -48,6 +48,7 @@ static void parse_file(struct context *context, char *path)
       }
       if (map[j * width + i] == 4)
       {
+        map[j * width + i] = 0;
         context->nb_enemies += 1;
         int ie = context->nb_enemies - 1;
         context->enemies = realloc(context->enemies,
@@ -55,6 +56,10 @@ static void parse_file(struct context *context, char *path)
         context->enemies[ie] = character_create();
         context->enemies[ie]->pos->x = i;
         context->enemies[ie]->pos->y = j;
+        context->enemies[ie]->rect.x = i;
+        context->enemies[ie]->rect.y = j;
+        context->enemies[ie]->rect.w = SCREEN_BPP;
+        context->enemies[ie]->rect.h = SCREEN_BPP;
       }
     }
   }
@@ -171,13 +176,7 @@ void update_map(struct context *context)
   int width = context->map->width;
   int height = context->map->height;
   
-  struct character *player = context->player;
-
-  for (int ie = 0; ie < context->nb_enemies; ++ie)
-  {
-    struct character *enemy = context->enemies[ie];
-    context->map->type[(int)enemy->pos->y * width + (int)enemy->pos->x] = 4;
-  }
+  struct character *player = context->player; 
 
   for (int i = 0; i < width; i++)
   {
@@ -189,6 +188,15 @@ void update_map(struct context *context)
       };
       apply_texture(context, dst, i - context->camera->x / 32, j - context->camera->y / 32); 
     }
+  }
+
+  for (int ie = 0; ie < context->nb_enemies; ++ie)
+  {
+    struct character *enemy = context->enemies[ie];
+    enemy->rect.x = (enemy->pos->x - context->camera->x) * SCREEN_BPP;
+    enemy->rect.y = (enemy->pos->y - context->camera->y) * SCREEN_BPP;
+    //context->map->type[(int)enemy->pos->y * width + (int)enemy->pos->x] = 4;
+    SDL_RenderCopy(context->renderer, context->enemytex, NULL, &(enemy->rect));
   }
   
   player->rect.x = (player->pos->x - context->camera->x) * SCREEN_BPP;
