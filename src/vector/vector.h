@@ -5,8 +5,8 @@
 
 struct vector2
 {
-  float x;
-  float y;
+  int x;
+  int y;
 };
 
 struct vector2 *create_vect(void);
@@ -19,6 +19,6 @@ struct vector2 *mult_two_vects(struct vector2 a, struct vector2 b);
 
 struct vector2 *mult_vect_coef(struct vector2 a, float coef);
 
-double distance_vect(struct vector2 a, struct vector2 b);
+int distance_vect(struct vector2 a, struct vector2 b);
 
 #endif /* !VECTOR_H */
