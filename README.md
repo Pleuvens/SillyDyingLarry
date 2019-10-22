@@ -77,3 +77,9 @@
 
   Larry can walk over the clouds!!! You can use this in order to make your game
   easier... Or harder.
+
+  *** Screenshots ***
+
+  ![](menu.png)
+  ![](levels.png)
+  ![](playing.png)
